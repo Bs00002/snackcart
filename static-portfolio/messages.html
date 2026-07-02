@@ -1,0 +1,18 @@
+{% if messages %}
+<div style="position:fixed;top:80px;right:20px;z-index:9999;min-width:300px;">
+  {% for message in messages %}
+  <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert" style="margin-bottom:10px;box-shadow:0 4px 15px rgba(0,0,0,0.15);">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="this.parentElement.remove()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %}
+</div>
+<script>
+  setTimeout(function(){
+    var alerts = document.querySelectorAll('.alert');
+    alerts.forEach(function(el){ el.style.display='none'; });
+  }, 4000);
+</script>
+{% endif %}

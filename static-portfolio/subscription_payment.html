@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscription Payment - SnackCart</title>
+  <link rel="stylesheet" href="/static/css/plugins/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body { background: linear-gradient(135deg, #fff7ef, #ffe9d6); display: flex; align-items: center; justify-content: center; min-height: 100vh; font-family: 'Segoe UI', sans-serif; margin: 0; }
+    .pay-card { background: #fff; border-radius: 24px; padding: 50px 40px; max-width: 460px; width: 92%; box-shadow: 0 16px 50px rgba(0,0,0,0.12); text-align: center; }
+    .crown-icon { width: 90px; height: 90px; background: linear-gradient(135deg, #F5C332, #ff8c42); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 8px 20px rgba(245,195,50,0.4); }
+    .feature-list { list-style: none; padding: 0; margin: 0 0 30px; text-align: left; }
+    .feature-list li { padding: 9px 0; font-size: 14px; color: #555; border-bottom: 1px solid #f5f5f5; display: flex; align-items: center; gap: 10px; }
+    .feature-list li:last-child { border-bottom: none; }
+    .pay-btn { width: 100%; height: 56px; background: #F5C332; border: none; border-radius: 14px; color: #fff; font-size: 18px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+    .pay-btn:hover { background: #e0b020; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(245,195,50,0.4); }
+  </style>
+</head>
+<body>
+  <div class="pay-card">
+    <div class="crown-icon"><i class="fas fa-crown" style="color:#fff;font-size:36px;"></i></div>
+    <h2 style="font-weight:800;color:#333;margin-bottom:5px;">SnackCart Pro</h2>
+    <p style="color:#888;font-size:14px;margin-bottom:5px;">{{ seller_profile.kitchen_name }}</p>
+    <div style="font-size:42px;font-weight:800;color:#F5C332;margin:20px 0;">
+      ₹199 <span style="font-size:16px;color:#aaa;font-weight:400;">/month</span>
+    </div>
+
+    <ul class="feature-list">
+      <li><i class="fas fa-check-circle" style="color:#4caf50;font-size:16px;"></i>Unlimited order acceptances</li>
+      <li><i class="fas fa-check-circle" style="color:#4caf50;font-size:16px;"></i>Products visible to all customers</li>
+      <li><i class="fas fa-check-circle" style="color:#4caf50;font-size:16px;"></i>Seller dashboard fully active</li>
+      <li><i class="fas fa-check-circle" style="color:#4caf50;font-size:16px;"></i>30 days full access</li>
+    </ul>
+
+    <button class="pay-btn" onclick="openRazorpay()">
+      <i class="fas fa-bolt"></i> Pay ₹199 Now
+    </button>
+    <p style="font-size:12px;color:#aaa;margin-top:14px;"><i class="fas fa-shield-alt"></i> 100% Secured by Razorpay</p>
+    <div style="margin-top:15px;">
+      <a href="/seller/subscription" style="font-size:13px;color:#888;">Cancel</a>
+    </div>
+  </div>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    function getCookie(name) {
+      var val = document.cookie.split(';').filter(function(c){ return c.trim().startsWith(name+'='); });
+      return val.length ? decodeURIComponent(val[0].trim().split('=')[1]) : '';
+    }
+    function openRazorpay() {
+      var rzp = new Razorpay({
+        key: "{{ razorpay_key }}",
+        amount: {{ amount }},
+        currency: "INR",
+        name: "SnackCart Pro Subscription",
+        description: "30-Day Seller Subscription",
+        order_id: "{{ razorpay_order_id }}",
+        handler: function(response) {
+          var form = document.createElement('form');
+          form.method = 'POST';
+          form.action = '/seller/subscription-success';
+          var data = {
+            'csrfmiddlewaretoken': getCookie('csrftoken'),
+            'razorpay_order_id': response.razorpay_order_id,
+            'razorpay_payment_id': response.razorpay_payment_id,
+            'razorpay_signature': response.razorpay_signature
+          };
+          Object.keys(data).forEach(function(k) {
+            var i = document.createElement('input');
+            i.type = 'hidden'; i.name = k; i.value = data[k];
+            form.appendChild(i);
+          });
+          document.body.appendChild(form);
+          form.submit();
+        },
+        prefill: { name: "{{ seller_profile.kitchen_name }}", email: "{{ seller_profile.contact_email }}", contact: "{{ seller_profile.mobile_number }}" },
+        theme: { color: "#F5C332" }
+      });
+      rzp.open();
+    }
+  </script>
+</body>
+</html>

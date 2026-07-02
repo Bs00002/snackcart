@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block main %}
+{% include 'messages.html' %}
+<section class="sb-banner sb-banner-xs sb-banner-color"><div class="container"><div class="sb-main-title-frame"><div class="sb-main-title"><h1 class="sb-h2">Order #{{ order.id }}</h1></div></div></div></section>
+<section style="padding:60px 0;">
+  <div class="container">
+    <div style="max-width:700px;margin:auto;background:#fff;border-radius:20px;padding:35px;box-shadow:0 8px 30px rgba(0,0,0,0.08);">
+      <div style="display:flex;justify-content:space-between;margin-bottom:25px;flex-wrap:wrap;gap:10px;">
+        <div><h5 style="font-weight:700;">{{ order.product.product_name }}</h5><p style="color:#888;font-size:14px;">Qty: {{ order.quantity }} | {{ order.created_at }}</p></div>
+        <span style="background:#fff3e0;color:#e65100;padding:8px 20px;border-radius:20px;font-size:13px;font-weight:700;height:fit-content;">{{ order.order_status }}</span>
+      </div>
+      <!-- Status Timeline -->
+      <div style="margin-bottom:25px;">
+        <h6 style="font-weight:700;margin-bottom:15px;">Order Progress</h6>
+        {% for status in status %}
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+          <div style="width:20px;height:20px;border-radius:50%;background:{% if order.order_status == status %}#F5C332{% elif forloop.counter <= 5 %}#4caf50{% else %}#eee{% endif %};flex-shrink:0;"></div>
+          <span style="font-size:14px;color:{% if order.order_status == status %}#F5C332;font-weight:700{% else %}#666{% endif %};">{{ status }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      <hr>
+      <div style="margin-bottom:20px;">
+        <h6 style="font-weight:700;margin-bottom:12px;">Payment Summary</h6>
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px;"><span>Food Price</span><span>₹{{ order.food_price }}</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px;"><span>Platform Fee</span><span>₹{{ order.platform_fee }}</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px;"><span>Delivery Charge</span><span>₹{{ order.delivery_charge }}</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;padding-top:10px;border-top:1px solid #eee;"><span>Total</span><span style="color:#F5C332;">₹{{ order.total_amount }}</span></div>
+      </div>
+      <div style="background:#f9f9f9;border-radius:12px;padding:15px;font-size:14px;">
+        <p style="margin:0 0 6px;"><strong>Payment Mode:</strong> {{ order.payment_mode }}</p>
+        <p style="margin:0 0 6px;"><strong>Payment Status:</strong> {{ order.payment_status }}</p>
+        <p style="margin:0;"><strong>Delivery Address:</strong> {{ order.delivery_address }}</p>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;">
+        <a href="/customer/orders" style="flex:1;background:#eee;color:#555;padding:12px;border-radius:12px;text-decoration:none;text-align:center;font-weight:600;">Back to Orders</a>
+        {% if order.order_status in 'Delivered,Completed' %}
+        <a href="/customer/review/{{ order.id }}" style="flex:1;background:#F5C332;color:#fff;padding:12px;border-radius:12px;text-decoration:none;text-align:center;font-weight:700;">Leave Review</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

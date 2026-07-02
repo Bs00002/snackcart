@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block main %}
+{% include 'messages.html' %}
+<section class="sb-banner sb-banner-xs sb-banner-color"><div class="container"><div class="sb-main-title-frame"><div class="sb-main-title"><h1 class="sb-h2">Orders</h1></div></div></div></section>
+<section style="padding:60px 0;background:#f9f9f9;">
+  <div class="container">
+    {% for order in orders %}
+    <div style="background:#fff;border-radius:16px;padding:22px;margin-bottom:15px;box-shadow:0 4px 15px rgba(0,0,0,0.06);">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px;">
+        <div>
+          <h6 style="font-weight:700;margin:0;">Order #{{ order.id }} - {{ order.product.product_name }}</h6>
+          <p style="font-size:13px;color:#888;margin:4px 0;">Customer: {{ order.customer.name }} | Qty: {{ order.quantity }} | ₹{{ order.total_amount }}</p>
+          <p style="font-size:12px;color:#aaa;margin:0;">{{ order.created_at }} | Payment: {{ order.payment_mode }}</p>
+          <p style="font-size:12px;color:#555;margin:4px 0;">Deliver to: {{ order.delivery_address }}</p>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
+          <span style="background:#fff3e0;color:#e65100;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;">{{ order.order_status }}</span>
+          {% if order.order_status not in 'Delivered,Completed,Cancelled' %}
+          <form method="POST" action="/seller/update-order/{{ order.id }}" style="display:flex;gap:8px;align-items:center;">
+            {% csrf_token %}
+            <select name="status" style="padding:6px 10px;border:2px solid #eee;border-radius:8px;font-size:13px;">
+              <option value="Accepted" {% if order.order_status == 'Accepted' %}selected{% endif %}>Accepted</option>
+              <option value="Preparing" {% if order.order_status == 'Preparing' %}selected{% endif %}>Preparing</option>
+              <option value="Ready for Pickup" {% if order.order_status == 'Ready for Pickup' %}selected{% endif %}>Ready for Pickup</option>
+              <option value="Out for Delivery" {% if order.order_status == 'Out for Delivery' %}selected{% endif %}>Out for Delivery</option>
+              <option value="Delivered">Delivered</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+            <button type="submit" style="background:#F5C332;color:#fff;border:none;padding:6px 14px;border-radius:8px;font-weight:600;cursor:pointer;">Update</button>
+          </form>
+          {% endif %}
+        </div>
+      </div>
+      {% if order.customization_note %}
+      <div style="margin-top:10px;background:#fff7ef;border-radius:10px;padding:10px;font-size:13px;"><strong>Customization:</strong> {{ order.customization_note }}</div>
+      {% endif %}
+    </div>
+    {% empty %}
+    <div style="text-align:center;padding:60px;"><p style="color:#aaa;">No orders yet.</p></div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

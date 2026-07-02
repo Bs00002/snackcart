@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block main %}
+{% include 'messages.html' %}
+
+<section class="sb-banner sb-banner-xs sb-banner-color">
+  <div class="container">
+    <div class="sb-main-title-frame">
+      <div class="sb-main-title">
+        <h1 class="sb-h2">Add Delivery Address</h1>
+        <ul class="sb-breadcrumbs">
+          <li><a href="/">Home</a></li>
+          <li><a href="/customer/profile">Profile</a></li>
+          <li><a href="#">Add Address</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:70px 0; background:#f9f9f9;">
+  <div class="container">
+    <div style="max-width:560px; margin:auto; background:#fff; border-radius:20px; padding:40px; box-shadow:0 8px 30px rgba(0,0,0,0.08);">
+
+      <div style="text-align:center; margin-bottom:30px;">
+        <div style="width:65px;height:65px;background:linear-gradient(135deg,#F5C332,#ff8c42);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 15px;">
+          <i class="fas fa-map-marker-alt" style="color:#fff;font-size:26px;"></i>
+        </div>
+        <h4 style="font-weight:700;color:#333;margin:0;">New Delivery Address</h4>
+        <p style="color:#888;font-size:14px;margin-top:5px;">This address will be used for order delivery</p>
+      </div>
+
+      <form method="POST" action="/customer/add-address">
+        {% csrf_token %}
+
+        <div style="margin-bottom:18px;">
+          <label style="font-size:14px;font-weight:600;color:#555;display:block;margin-bottom:7px;">
+            <i class="fas fa-user" style="color:#F5C332;margin-right:6px;"></i>Receiver Name *
+          </label>
+          <input type="text" name="receiver_name" placeholder="Full name of the receiver"
+            style="width:100%;padding:13px 15px;border:2px solid #eee;border-radius:10px;font-size:14px;outline:none;transition:0.3s;"
+            onfocus="this.style.borderColor='#F5C332'" onblur="this.style.borderColor='#eee'" required>
+        </div>
+
+        <div style="margin-bottom:18px;">
+          <label style="font-size:14px;font-weight:600;color:#555;display:block;margin-bottom:7px;">
+            <i class="fas fa-phone" style="color:#F5C332;margin-right:6px;"></i>Contact Number *
+          </label>
+          <input type="text" name="contact_number" placeholder="10-digit mobile number" maxlength="10"
+            style="width:100%;padding:13px 15px;border:2px solid #eee;border-radius:10px;font-size:14px;outline:none;transition:0.3s;"
+            onfocus="this.style.borderColor='#F5C332'" onblur="this.style.borderColor='#eee'" required>
+        </div>
+
+        <div style="margin-bottom:18px;">
+          <label style="font-size:14px;font-weight:600;color:#555;display:block;margin-bottom:7px;">
+            <i class="fas fa-home" style="color:#F5C332;margin-right:6px;"></i>Full Address *
+          </label>
+          <textarea name="full_address" rows="3" placeholder="House/Flat No., Street, Area, City, Pincode"
+            style="width:100%;padding:13px 15px;border:2px solid #eee;border-radius:10px;font-size:14px;outline:none;transition:0.3s;resize:vertical;"
+            onfocus="this.style.borderColor='#F5C332'" onblur="this.style.borderColor='#eee'" required></textarea>
+        </div>
+
+        <div style="margin-bottom:22px;">
+          <label style="font-size:14px;font-weight:600;color:#555;display:block;margin-bottom:7px;">
+            <i class="fas fa-map-pin" style="color:#F5C332;margin-right:6px;"></i>Landmark <span style="color:#aaa;font-weight:400;">(Optional)</span>
+          </label>
+          <input type="text" name="landmark" placeholder="e.g. Near Big Bazaar, Opposite Park"
+            style="width:100%;padding:13px 15px;border:2px solid #eee;border-radius:10px;font-size:14px;outline:none;transition:0.3s;"
+            onfocus="this.style.borderColor='#F5C332'" onblur="this.style.borderColor='#eee'">
+        </div>
+
+        <div style="background:#fff7ef;border-radius:12px;padding:14px 16px;margin-bottom:22px;display:flex;align-items:center;gap:12px;">
+          <input type="checkbox" name="is_default" id="isDefault" style="width:18px;height:18px;accent-color:#F5C332;cursor:pointer;">
+          <label for="isDefault" style="cursor:pointer;font-size:14px;color:#555;font-weight:500;margin:0;">
+            Set as my default delivery address
+          </label>
+        </div>
+
+        <div style="display:flex;gap:12px;">
+          <a href="/customer/profile"
+            style="flex:1;background:#eee;color:#555;padding:14px;border-radius:12px;text-align:center;text-decoration:none;font-weight:700;font-size:15px;">
+            Cancel
+          </a>
+          <button type="submit"
+            style="flex:2;background:#F5C332;color:#fff;border:none;padding:14px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;transition:0.3s;"
+            onmouseover="this.style.background='#e0b020'" onmouseout="this.style.background='#F5C332'">
+            <i class="fas fa-save"></i> Save Address
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

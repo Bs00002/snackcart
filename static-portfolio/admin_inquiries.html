@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block main %}
+{% include 'messages.html' %}
+<section class="sb-banner sb-banner-xs sb-banner-color">
+  <div class="container"><div class="sb-main-title-frame"><div class="sb-main-title">
+    <h1 class="sb-h2">User Inquiries</h1>
+    <ul class="sb-breadcrumbs"><li><a href="/admin-dashboard">Dashboard</a></li><li><a href="#">Inquiries</a></li></ul>
+  </div></div></div>
+</section>
+<section style="padding:60px 0;background:#f9f9f9;">
+  <div class="container">
+    {% for inq in inquiries %}
+    <div style="background:#fff;border-radius:14px;padding:20px;margin-bottom:12px;box-shadow:0 4px 15px rgba(0,0,0,0.06);">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;">
+        <div>
+          <h6 style="font-weight:700;margin:0;">{{ inq.subject }}</h6>
+          <p style="font-size:13px;color:#888;margin:4px 0;">By: {{ inq.user.name }} ({{ inq.user.role }}) | {{ inq.created_at|date:"d M Y" }}</p>
+          <p style="font-size:13px;color:#555;margin:0;">{{ inq.message }}</p>
+        </div>
+        <span style="background:{% if inq.status == 'Pending' %}#fff3e0;color:#e65100{% else %}#e8f5e9;color:#388e3c{% endif %};padding:4px 14px;border-radius:15px;font-size:12px;font-weight:700;">{{ inq.status }}</span>
+      </div>
+    </div>
+    {% empty %}
+    <div style="text-align:center;padding:60px;"><p style="color:#aaa;">No inquiries yet.</p></div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

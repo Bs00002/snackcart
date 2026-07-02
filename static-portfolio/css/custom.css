@@ -1,0 +1,825 @@
+/*
+  admin_custom.css  —  SnackCart Jazzmin Theme
+  Colour Scheme: Black & Yellow
+  Place at:  myapp1/static/css/admin_custom.css
+  In settings.py JAZZMIN_SETTINGS:  "custom_css": "css/admin_custom.css"
+*/
+
+/* ── CSS Variables ─────────────────────────────────────────────────────── */
+:root {
+  --sc-yellow:        #F5C518;
+  --sc-yellow-dark:   #D4AA00;
+  --sc-yellow-light:  #FFD740;
+  --sc-yellow-glow:   rgba(245, 197, 24, 0.15);
+  --sc-black:         #0A0A0A;
+  --sc-black-2:       #141414;
+  --sc-black-3:       #1E1E1E;
+  --sc-black-4:       #2A2A2A;
+  --sc-black-5:       #333333;
+  --sc-white:         #FFFFFF;
+  --sc-text-light:    rgba(255,255,255,0.85);
+  --sc-text-muted:    rgba(255,255,255,0.45);
+  --sc-green:         #2ECC71;
+  --sc-red:           #E74C3C;
+  --sc-blue:          #3498DB;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════════════════════════════════════════ */
+.main-header.navbar,
+.main-header {
+  background: var(--sc-black) !important;
+  border-bottom: 3px solid var(--sc-yellow) !important;
+  box-shadow: 0 2px 20px rgba(245, 197, 24, 0.2) !important;
+}
+
+.main-header .navbar-nav .nav-link,
+.main-header .nav-link {
+  color: var(--sc-text-light) !important;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.main-header .navbar-nav .nav-link:hover,
+.main-header .nav-link:hover {
+  color: var(--sc-yellow) !important;
+}
+
+/* Search bar in navbar */
+.main-header .form-control {
+  background: var(--sc-black-3) !important;
+  border: 1px solid var(--sc-black-5) !important;
+  color: var(--sc-white) !important;
+  border-radius: 6px;
+}
+.main-header .form-control:focus {
+  border-color: var(--sc-yellow) !important;
+  box-shadow: 0 0 0 2px var(--sc-yellow-glow) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BRAND / LOGO
+═══════════════════════════════════════════════════════════════════════════ */
+.brand-link,
+.brand-link:hover,
+.brand-link:focus {
+  background: var(--sc-yellow) !important;
+  border-bottom: 2px solid var(--sc-yellow-dark) !important;
+  color: var(--sc-black) !important;
+  text-decoration: none !important;
+}
+
+.brand-text {
+  color: var(--sc-black) !important;
+  font-weight: 900 !important;
+  font-size: 1.25rem !important;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SIDEBAR
+═══════════════════════════════════════════════════════════════════════════ */
+.main-sidebar,
+.main-sidebar .sidebar {
+  background: var(--sc-black-2) !important;
+  border-right: 1px solid var(--sc-black-4) !important;
+}
+
+/* Section headers */
+.nav-sidebar .nav-header {
+  color: var(--sc-yellow) !important;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 12px 16px 4px;
+}
+
+/* Nav items */
+.nav-sidebar .nav-item .nav-link {
+  color: var(--sc-text-light) !important;
+  border-radius: 6px;
+  margin: 1px 8px;
+  transition: all 0.2s ease;
+}
+
+.nav-sidebar .nav-item .nav-link:hover {
+  background: var(--sc-black-4) !important;
+  color: var(--sc-yellow) !important;
+}
+
+/* Active item */
+.nav-sidebar .nav-item > .nav-link.active {
+  background: var(--sc-yellow) !important;
+  color: var(--sc-black) !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 12px rgba(245, 197, 24, 0.35) !important;
+}
+
+/* Child nav items (tree view) */
+.nav-sidebar .nav-treeview .nav-item .nav-link {
+  color: var(--sc-text-muted) !important;
+  padding-left: 2rem;
+  font-size: 0.88rem;
+}
+.nav-sidebar .nav-treeview .nav-item .nav-link:hover {
+  color: var(--sc-yellow) !important;
+  background: rgba(245, 197, 24, 0.08) !important;
+}
+.nav-sidebar .nav-treeview .nav-item .nav-link.active {
+  color: var(--sc-yellow) !important;
+  background: rgba(245, 197, 24, 0.12) !important;
+  border-left: 3px solid var(--sc-yellow) !important;
+  font-weight: 600 !important;
+  box-shadow: none !important;
+}
+
+/* Icons */
+.nav-sidebar .nav-icon {
+  color: var(--sc-yellow) !important;
+  font-size: 0.95rem;
+}
+.nav-sidebar .nav-item > .nav-link.active .nav-icon {
+  color: var(--sc-black) !important;
+}
+
+/* Expand arrow */
+.nav-sidebar .nav-item .nav-link > .right {
+  color: var(--sc-text-muted) !important;
+}
+
+/* Sidebar user panel */
+.sidebar .user-panel {
+  border-bottom: 1px solid var(--sc-black-4) !important;
+  padding: 12px 16px;
+}
+.sidebar .user-panel .info a {
+  color: var(--sc-yellow) !important;
+  font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CONTENT AREA
+═══════════════════════════════════════════════════════════════════════════ */
+.content-wrapper {
+  background: #111111 !important;
+}
+
+/* Page title */
+.content-header h1 {
+  color: var(--sc-white) !important;
+  font-weight: 800;
+  font-size: 1.5rem;
+}
+
+/* Breadcrumb */
+.content-header .breadcrumb {
+  background: transparent !important;
+}
+.breadcrumb-item a {
+  color: var(--sc-yellow) !important;
+}
+.breadcrumb-item.active {
+  color: var(--sc-text-muted) !important;
+}
+.breadcrumb-item + .breadcrumb-item::before {
+  color: var(--sc-text-muted) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CARDS
+═══════════════════════════════════════════════════════════════════════════ */
+.card {
+  background: var(--sc-black-2) !important;
+  border: 1px solid var(--sc-black-4) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4) !important;
+}
+
+.card-header {
+  background: var(--sc-black-3) !important;
+  border-bottom: 2px solid var(--sc-yellow) !important;
+  border-radius: 10px 10px 0 0 !important;
+  color: var(--sc-white) !important;
+  font-weight: 700;
+  padding: 14px 18px;
+}
+
+.card-body {
+  background: var(--sc-black-2) !important;
+  color: var(--sc-text-light) !important;
+}
+
+.card-footer {
+  background: var(--sc-black-3) !important;
+  border-top: 1px solid var(--sc-black-4) !important;
+  border-radius: 0 0 10px 10px !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════════════════════════════════ */
+.btn-primary,
+.btn-warning {
+  background: var(--sc-yellow) !important;
+  border-color: var(--sc-yellow-dark) !important;
+  color: var(--sc-black) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.3px;
+  transition: all 0.2s ease;
+}
+.btn-primary:hover,
+.btn-warning:hover,
+.btn-primary:focus,
+.btn-warning:focus {
+  background: var(--sc-yellow-dark) !important;
+  border-color: var(--sc-yellow-dark) !important;
+  color: var(--sc-black) !important;
+  box-shadow: 0 4px 14px rgba(245, 197, 24, 0.4) !important;
+}
+
+.btn-success {
+  background: var(--sc-green) !important;
+  border-color: var(--sc-green) !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+.btn-danger {
+  background: var(--sc-red) !important;
+  border-color: var(--sc-red) !important;
+  font-weight: 600;
+}
+.btn-secondary,
+.btn-outline-secondary {
+  border-color: var(--sc-black-5) !important;
+  color: var(--sc-text-light) !important;
+  background: var(--sc-black-4) !important;
+}
+.btn-secondary:hover {
+  background: var(--sc-black-5) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CHANGELIST TABLE
+═══════════════════════════════════════════════════════════════════════════ */
+#result_list {
+  background: var(--sc-black-2) !important;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--sc-black-4) !important;
+}
+
+#result_list thead th {
+  background: var(--sc-black) !important;
+  color: var(--sc-yellow) !important;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border-bottom: 2px solid var(--sc-yellow) !important;
+  border-right: 1px solid var(--sc-black-4) !important;
+  padding: 12px 10px;
+  white-space: nowrap;
+}
+
+#result_list thead th a {
+  color: var(--sc-yellow) !important;
+}
+#result_list thead th.sorted a {
+  color: var(--sc-yellow-light) !important;
+}
+/* Sort arrows */
+#result_list thead th.sorted .text span,
+thead th.ascending a::after,
+thead th.descending a::after {
+  color: var(--sc-yellow) !important;
+}
+
+#result_list tbody tr {
+  border-bottom: 1px solid var(--sc-black-4) !important;
+  transition: background 0.15s;
+}
+#result_list tbody tr:nth-child(odd) {
+  background: var(--sc-black-2) !important;
+}
+#result_list tbody tr:nth-child(even) {
+  background: var(--sc-black-3) !important;
+}
+#result_list tbody tr:hover {
+  background: rgba(245, 197, 24, 0.07) !important;
+}
+
+#result_list tbody td {
+  color: var(--sc-text-light) !important;
+  border-right: 1px solid var(--sc-black-4) !important;
+  padding: 10px;
+  vertical-align: middle;
+}
+
+#result_list tbody td a {
+  color: var(--sc-yellow) !important;
+  font-weight: 500;
+}
+#result_list tbody td a:hover {
+  color: var(--sc-yellow-light) !important;
+  text-decoration: underline;
+}
+
+/* Checkbox column */
+#result_list thead th:first-child,
+#result_list tbody td:first-child {
+  padding-left: 14px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FILTERS SIDEBAR
+═══════════════════════════════════════════════════════════════════════════ */
+#changelist-filter {
+  background: var(--sc-black-2) !important;
+  border: 1px solid var(--sc-black-4) !important;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#changelist-filter h2 {
+  background: var(--sc-yellow) !important;
+  color: var(--sc-black) !important;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 12px 16px;
+  margin: 0;
+}
+
+#changelist-filter h3 {
+  color: var(--sc-yellow) !important;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border-bottom: 1px solid var(--sc-black-4);
+  padding: 10px 16px 8px;
+  margin: 0;
+}
+
+#changelist-filter ul {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+#changelist-filter li {
+  border-bottom: 1px solid var(--sc-black-4);
+}
+
+#changelist-filter li a {
+  color: var(--sc-text-light) !important;
+  display: block;
+  padding: 7px 16px;
+  font-size: 0.85rem;
+  transition: all 0.15s;
+}
+#changelist-filter li a:hover {
+  background: var(--sc-yellow-glow) !important;
+  color: var(--sc-yellow) !important;
+  text-decoration: none;
+}
+#changelist-filter li.selected a {
+  color: var(--sc-yellow) !important;
+  font-weight: 700;
+  background: rgba(245, 197, 24, 0.10) !important;
+  border-left: 3px solid var(--sc-yellow);
+  padding-left: 13px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SEARCH BAR
+═══════════════════════════════════════════════════════════════════════════ */
+#changelist-search {
+  margin-bottom: 12px;
+}
+
+#changelist-search input[type="text"],
+#searchbar {
+  background: var(--sc-black-3) !important;
+  border: 2px solid var(--sc-black-5) !important;
+  color: var(--sc-white) !important;
+  border-radius: 6px 0 0 6px !important;
+  padding: 8px 12px;
+  transition: border-color 0.2s;
+}
+#changelist-search input[type="text"]:focus {
+  border-color: var(--sc-yellow) !important;
+  outline: none;
+  box-shadow: 0 0 0 3px var(--sc-yellow-glow) !important;
+}
+
+#changelist-search input[type="submit"] {
+  background: var(--sc-yellow) !important;
+  border-color: var(--sc-yellow-dark) !important;
+  color: var(--sc-black) !important;
+  font-weight: 700;
+  border-radius: 0 6px 6px 0 !important;
+  padding: 8px 14px;
+  transition: background 0.2s;
+}
+#changelist-search input[type="submit"]:hover {
+  background: var(--sc-yellow-dark) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FORMS & INPUTS
+═══════════════════════════════════════════════════════════════════════════ */
+.form-control,
+select,
+textarea,
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+input[type="url"] {
+  background: var(--sc-black-3) !important;
+  border: 1px solid var(--sc-black-5) !important;
+  color: var(--sc-white) !important;
+  border-radius: 6px !important;
+}
+.form-control:focus,
+select:focus,
+textarea:focus,
+input[type="text"]:focus {
+  border-color: var(--sc-yellow) !important;
+  box-shadow: 0 0 0 3px var(--sc-yellow-glow) !important;
+  outline: none;
+}
+
+label {
+  color: var(--sc-text-light) !important;
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+.help {
+  color: var(--sc-text-muted) !important;
+  font-size: 0.8rem;
+}
+
+/* Fieldset */
+fieldset {
+  background: var(--sc-black-3) !important;
+  border: 1px solid var(--sc-black-4) !important;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+fieldset h2 {
+  background: var(--sc-black) !important;
+  color: var(--sc-yellow) !important;
+  border-bottom: 2px solid var(--sc-yellow) !important;
+  border-radius: 6px 6px 0 0;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin: -16px -16px 14px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PAGINATION
+═══════════════════════════════════════════════════════════════════════════ */
+.paginator {
+  color: var(--sc-text-muted) !important;
+}
+.paginator a {
+  color: var(--sc-yellow) !important;
+  border: 1px solid var(--sc-black-5);
+  border-radius: 4px;
+  padding: 3px 9px;
+  margin: 0 2px;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+.paginator a:hover {
+  background: var(--sc-yellow) !important;
+  color: var(--sc-black) !important;
+  border-color: var(--sc-yellow) !important;
+}
+.paginator .this-page {
+  background: var(--sc-yellow) !important;
+  color: var(--sc-black) !important;
+  border-radius: 4px;
+  padding: 3px 9px;
+  margin: 0 2px;
+  font-weight: 800;
+  border: 1px solid var(--sc-yellow-dark);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ACTIONS BAR
+═══════════════════════════════════════════════════════════════════════════ */
+.actions {
+  background: var(--sc-black-3) !important;
+  border: 1px solid var(--sc-black-4) !important;
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+.actions select {
+  background: var(--sc-black) !important;
+  color: var(--sc-white) !important;
+  border: 1px solid var(--sc-black-5) !important;
+  border-radius: 6px;
+  padding: 5px 10px;
+}
+.actions select:focus {
+  border-color: var(--sc-yellow) !important;
+}
+.actions button[type="submit"] {
+  background: var(--sc-yellow) !important;
+  border-color: var(--sc-yellow-dark) !important;
+  color: var(--sc-black) !important;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: 5px 14px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   OBJECT TOOLS (Add / History buttons top-right)
+═══════════════════════════════════════════════════════════════════════════ */
+.object-tools a,
+.object-tools a:link {
+  background: var(--sc-yellow) !important;
+  color: var(--sc-black) !important;
+  border-radius: 6px !important;
+  font-weight: 700 !important;
+  padding: 6px 14px !important;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(245, 197, 24, 0.3);
+  transition: all 0.2s;
+}
+.object-tools a:hover {
+  background: var(--sc-yellow-dark) !important;
+  box-shadow: 0 4px 14px rgba(245, 197, 24, 0.4) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SUBMIT ROW (Save / Delete area)
+═══════════════════════════════════════════════════════════════════════════ */
+.submit-row {
+  background: var(--sc-black) !important;
+  border-top: 2px solid var(--sc-yellow) !important;
+  border-radius: 0 0 10px 10px;
+  padding: 14px 18px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.submit-row input[type="submit"] {
+  border-radius: 6px !important;
+  font-weight: 700 !important;
+  padding: 8px 18px !important;
+}
+.submit-row a.deletelink {
+  background: var(--sc-red) !important;
+  color: #fff !important;
+  border-radius: 6px !important;
+  padding: 8px 14px !important;
+  font-weight: 600;
+}
+.submit-row a.deletelink:hover {
+  background: #c0392b !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MESSAGES / ALERTS
+═══════════════════════════════════════════════════════════════════════════ */
+.messagelist li {
+  border-radius: 6px;
+  padding: 10px 16px;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+.messagelist .success {
+  background: rgba(46, 204, 113, 0.15) !important;
+  border-left: 4px solid var(--sc-green) !important;
+  color: #2ECC71 !important;
+}
+.messagelist .warning,
+.messagelist .info {
+  background: rgba(245, 197, 24, 0.12) !important;
+  border-left: 4px solid var(--sc-yellow) !important;
+  color: var(--sc-yellow) !important;
+}
+.messagelist .error {
+  background: rgba(231, 76, 60, 0.15) !important;
+  border-left: 4px solid var(--sc-red) !important;
+  color: var(--sc-red) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════════════════════════════ */
+.main-footer {
+  background: var(--sc-black) !important;
+  color: var(--sc-text-muted) !important;
+  border-top: 2px solid var(--sc-yellow) !important;
+  font-size: 0.78rem;
+  text-align: center;
+}
+.main-footer a {
+  color: var(--sc-yellow) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LOGIN PAGE
+═══════════════════════════════════════════════════════════════════════════ */
+.login-page,
+body.login-page {
+  background: var(--sc-black) !important;
+  background-image: radial-gradient(ellipse at 20% 50%, rgba(245,197,24,0.06) 0%, transparent 60%),
+                    radial-gradient(ellipse at 80% 20%, rgba(245,197,24,0.04) 0%, transparent 50%) !important;
+}
+
+.login-box,
+.login-card {
+  background: transparent !important;
+}
+
+.login-box-body,
+.login-card-body,
+.card.login-card-body {
+  background: var(--sc-black-2) !important;
+  border: 1px solid var(--sc-black-4) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(245,197,24,0.1) !important;
+  padding: 32px !important;
+}
+
+.login-logo,
+.login-logo a {
+  color: var(--sc-yellow) !important;
+  font-size: 2rem !important;
+  font-weight: 900 !important;
+  text-shadow: 0 0 20px rgba(245,197,24,0.3);
+  text-decoration: none !important;
+}
+
+.login-box-msg {
+  color: var(--sc-text-muted) !important;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+.login-box-body .form-control,
+.login-card-body .form-control {
+  background: var(--sc-black-3) !important;
+  border: 1px solid var(--sc-black-5) !important;
+  color: var(--sc-white) !important;
+  padding: 10px 14px !important;
+  font-size: 0.95rem;
+}
+.login-box-body .form-control:focus {
+  border-color: var(--sc-yellow) !important;
+  box-shadow: 0 0 0 3px var(--sc-yellow-glow) !important;
+}
+
+.login-box .btn-primary,
+.login-card .btn-primary {
+  background: var(--sc-yellow) !important;
+  border-color: var(--sc-yellow-dark) !important;
+  color: var(--sc-black) !important;
+  width: 100%;
+  padding: 11px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 16px rgba(245, 197, 24, 0.35);
+  transition: all 0.2s;
+}
+.login-box .btn-primary:hover {
+  background: var(--sc-yellow-dark) !important;
+  box-shadow: 0 6px 20px rgba(245, 197, 24, 0.5) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   INLINE ADMIN GROUPS
+═══════════════════════════════════════════════════════════════════════════ */
+.inline-group {
+  background: var(--sc-black-3) !important;
+  border: 1px solid var(--sc-black-4) !important;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.inline-group h2 {
+  background: var(--sc-yellow) !important;
+  color: var(--sc-black) !important;
+  padding: 10px 16px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin: 0;
+}
+.inline-related .module h3 {
+  background: var(--sc-black) !important;
+  color: var(--sc-yellow) !important;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--sc-black-4);
+  font-weight: 700;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MISC
+═══════════════════════════════════════════════════════════════════════════ */
+
+/* Links globally */
+a { color: var(--sc-yellow) !important; }
+a:hover { color: var(--sc-yellow-light) !important; }
+
+/* Selected checkbox row highlight */
+#result_list tr.selected {
+  background: rgba(245, 197, 24, 0.10) !important;
+}
+#result_list tr.selected td {
+  border-color: rgba(245, 197, 24, 0.2) !important;
+}
+
+/* Dashboard recent actions */
+.module h2, .module caption {
+  background: var(--sc-black) !important;
+  color: var(--sc-yellow) !important;
+  border-bottom: 2px solid var(--sc-yellow) !important;
+  padding: 10px 14px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+/* Dashboard quick links */
+#content-related .module {
+  background: var(--sc-black-2) !important;
+  border: 1px solid var(--sc-black-4) !important;
+  border-radius: 8px;
+}
+
+/* Date/time widgets */
+.datetimeshortcuts a {
+  color: var(--sc-yellow) !important;
+}
+.calendarbox, .clockbox {
+  background: var(--sc-black-2) !important;
+  border: 1px solid var(--sc-black-4) !important;
+}
+.calendarbox h2 {
+  background: var(--sc-yellow) !important;
+  color: var(--sc-black) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════════════════════════════════════════ */
+* { scrollbar-width: thin; scrollbar-color: var(--sc-yellow) var(--sc-black-3); }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--sc-black-3); }
+::-webkit-scrollbar-thumb { background: var(--sc-yellow); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--sc-yellow-dark); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   JAZZMIN UI_TWEAKS REMINDER
+   In your settings.py update JAZZMIN_UI_TWEAKS to:
+
+   JAZZMIN_UI_TWEAKS = {
+       "navbar_small_text":   False,
+       "footer_small_text":   False,
+       "body_small_text":     False,
+       "brand_small_text":    False,
+       "brand_colour":        "navbar-dark",
+       "accent":              "accent-warning",
+       "navbar":              "navbar-dark",
+       "no_navbar_border":    True,
+       "navbar_fixed":        True,
+       "sidebar":             "sidebar-dark-warning",
+       "sidebar_nav_small_text":   False,
+       "sidebar_disable_expand":   False,
+       "sidebar_nav_child_indent": True,
+       "sidebar_nav_compact_style": False,
+       "sidebar_nav_legacy_style":  False,
+       "sidebar_nav_flat_style":    False,
+       "theme":               "cyborg",
+       "dark_mode_theme":     "cyborg",
+       "button_classes": {
+           "primary":   "btn-warning",
+           "secondary": "btn-outline-secondary",
+           "info":      "btn-info",
+           "warning":   "btn-warning",
+           "danger":    "btn-danger",
+           "success":   "btn-success",
+       },
+       "actions_sticky_top": True,
+   }
+═══════════════════════════════════════════════════════════════════════════ */

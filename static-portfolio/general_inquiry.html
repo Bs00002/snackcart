@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block main %}
+{% include 'messages.html' %}
+
+<section class="sb-banner sb-banner-xs sb-banner-color">
+  <div class="container">
+    <div class="sb-main-title-frame">
+      <div class="sb-main-title">
+        <h1 class="sb-h2">General Inquiry</h1>
+        <ul class="sb-breadcrumbs">
+          <li><a href="/">Home</a></li>
+          <li><a href="#">Inquiry</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:60px 0; background:#f9f9f9;">
+  <div class="container">
+    <div class="row">
+
+      <!-- Submit Form -->
+      <div class="col-lg-5 mb-4">
+        <div style="background:#fff;border-radius:20px;padding:35px;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:25px;">
+            <div style="width:48px;height:48px;background:linear-gradient(135deg,#F5C332,#ff8c42);border-radius:12px;display:flex;align-items:center;justify-content:center;">
+              <i class="fas fa-paper-plane" style="color:#fff;font-size:20px;"></i>
+            </div>
+            <div>
+              <h5 style="font-weight:700;margin:0;color:#333;">Send Inquiry</h5>
+              <p style="font-size:13px;color:#888;margin:0;">We'll respond within 24 hours</p>
+            </div>
+          </div>
+
+          <form method="POST" action="/inquiry">
+            {% csrf_token %}
+
+            <div style="margin-bottom:18px;">
+              <label style="font-size:14px;font-weight:600;color:#555;display:block;margin-bottom:7px;">Subject *</label>
+              <input type="text" name="subject" placeholder="What is this inquiry about?"
+                style="width:100%;padding:13px 15px;border:2px solid #eee;border-radius:10px;font-size:14px;outline:none;transition:0.3s;box-sizing:border-box;"
+                onfocus="this.style.borderColor='#F5C332'" onblur="this.style.borderColor='#eee'" required>
+            </div>
+
+            <div style="margin-bottom:22px;">
+              <label style="font-size:14px;font-weight:600;color:#555;display:block;margin-bottom:7px;">Message *</label>
+              <textarea name="message" rows="6" placeholder="Describe your query in detail..."
+                style="width:100%;padding:13px 15px;border:2px solid #eee;border-radius:10px;font-size:14px;outline:none;transition:0.3s;resize:vertical;box-sizing:border-box;"
+                onfocus="this.style.borderColor='#F5C332'" onblur="this.style.borderColor='#eee'" required></textarea>
+            </div>
+
+            <button type="submit"
+              style="width:100%;height:52px;background:#F5C332;border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;transition:0.3s;"
+              onmouseover="this.style.background='#e0b020'" onmouseout="this.style.background='#F5C332'">
+              <i class="fas fa-paper-plane"></i> Submit Inquiry
+            </button>
+          </form>
+        </div>
+
+        <!-- Contact Info -->
+        <div style="background:#fff;border-radius:20px;padding:25px;box-shadow:0 4px 20px rgba(0,0,0,0.06);margin-top:20px;">
+          <h6 style="font-weight:700;color:#333;margin-bottom:15px;">Need Immediate Help?</h6>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+            <div style="width:38px;height:38px;background:#fff7ef;border-radius:10px;display:flex;align-items:center;justify-content:center;">
+              <i class="fas fa-envelope" style="color:#F5C332;"></i>
+            </div>
+            <span style="font-size:13px;color:#555;">snackcart@gmail.com</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:38px;height:38px;background:#fff7ef;border-radius:10px;display:flex;align-items:center;justify-content:center;">
+              <i class="fas fa-phone" style="color:#F5C332;"></i>
+            </div>
+            <span style="font-size:13px;color:#555;">+91 98765 43210</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inquiry History -->
+      <div class="col-lg-7 mb-4">
+        <div style="background:#fff;border-radius:20px;padding:30px;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+          <h5 style="font-weight:700;color:#333;margin-bottom:20px;"><i class="fas fa-history" style="color:#F5C332;margin-right:8px;"></i>Your Inquiries</h5>
+
+          {% for inq in inquiries %}
+          <div style="border:1px solid #f0f0f0;border-radius:12px;padding:18px;margin-bottom:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+              <div style="flex:1;">
+                <h6 style="font-weight:700;color:#333;margin:0 0 5px;">{{ inq.subject }}</h6>
+                <p style="font-size:13px;color:#666;line-height:1.6;margin:0 0 8px;">{{ inq.message }}</p>
+                <p style="font-size:11px;color:#aaa;margin:0;">
+                  <i class="fas fa-clock" style="color:#F5C332;"></i> {{ inq.created_at|date:"d M Y, g:i A" }}
+                </p>
+              </div>
+              <span style="background:{% if inq.status == 'Resolved' %}#e8f5e9;color:#388e3c{% else %}#fff3e0;color:#e65100{% endif %};padding:5px 14px;border-radius:15px;font-size:12px;font-weight:700;white-space:nowrap;">
+                {{ inq.status }}
+              </span>
+            </div>
+          </div>
+          {% empty %}
+          <div style="text-align:center;padding:50px 20px;">
+            <i class="fas fa-inbox" style="font-size:60px;color:#ddd;margin-bottom:15px;display:block;"></i>
+            <p style="color:#aaa;font-size:14px;margin:0;">No inquiries submitted yet.</p>
+            <p style="color:#bbb;font-size:13px;margin-top:5px;">Use the form on the left to send your first inquiry.</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endblock %}

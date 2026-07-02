@@ -1,0 +1,176 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#F5C332">
+  <link rel="shortcut icon" href="{% static 'img/ui/logo.ico' %}" type="image/x-icon">
+  <link rel="stylesheet" href="{% static 'css/plugins/font-awesome.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/plugins/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/plugins/swiper.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/plugins/datepicker.css' %}">
+  <link rel="stylesheet" href="{% static 'css/plugins/fancybox.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <title>SnackCart - Home Made Food Marketplace</title>
+</head>
+
+<body>
+  <!-- preloader -->
+  <div class="sb-preloader sb-hidden">
+    <div class="sb-preloader-bg"></div>
+    <div class="sb-preloader-body">
+      <div class="sb-loading">
+        <span class="sb-preloader-number" data-count="100">0</span>%
+      </div>
+      <div class="sb-loading-bar">
+        <div class="sb-bar"></div>
+      </div>
+    </div>
+  </div>
+  <!-- preloader end -->
+
+  <div class="sb-app">
+    <div class="sb-click-effect"></div>
+
+    <!-- top bar -->
+    <div class="sb-top-bar-frame">
+      <div class="sb-top-bar-bg"></div>
+      <div class="container">
+        <div class="sb-top-bar">
+          <a href="/" class="sb-logo-frame">
+            <img src="/static/img/ui/logo.png" alt="SnackCart">
+          </a>
+          <div class="sb-right-side">
+            <nav id="sb-dynamic-menu" class="sb-menu-transition">
+              <ul class="sb-navigation">
+                <li><a href="/">Home</a></li>
+                <li><a href="/menu">Menu</a></li>
+                <li><a href="/sellers">Sellers</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+
+                {% if userdata %}
+                  {% if is_customer %}
+                    <li><a href="/cart">Cart ({{ cart_count|default:0 }})</a></li>
+                    <li class="sb-has-children">
+                      <a href="#">My Account</a>
+                      <ul>
+                        <li><a href="/customer/dashboard">Dashboard</a></li>
+                        <li><a href="/customer/orders">My Orders</a></li>
+                        <li><a href="/customer/profile">Profile</a></li>
+                        <li><a href="/customer/complaints">Complaints</a></li>
+                        <li><a href="/inquiry">General Inquiry</a></li>
+                        <li><a href="/change-password">Change Password</a></li>
+                      </ul>
+                    </li>
+                  {% endif %}
+                  {% if is_seller %}
+                    <li class="sb-has-children">
+                      <a href="#">Seller Panel</a>
+                      <ul>
+                        <li><a href="/seller/dashboard">Dashboard</a></li>
+                        <li><a href="/seller/products">My Products</a></li>
+                        <li><a href="/seller/orders">Orders</a></li>
+                        <li><a href="/seller/earnings">Earnings</a></li>
+                        <li><a href="/seller/subscription">Subscription</a></li>
+                        <li><a href="/inquiry">Inquiry</a></li>
+                        <li><a href="/change-password">Change Password</a></li>
+                      </ul>
+                    </li>
+                  {% endif %}
+                  {% if is_admin %}
+                    <li class="sb-has-children">
+                      <a href="#">Admin Panel</a>
+                      <ul>
+                        <li><a href="/admin-dashboard">Dashboard</a></li>
+                        <li><a href="/admin/sellers">Sellers</a></li>
+                        <li><a href="/admin/users">Users</a></li>
+                        <li><a href="/admin/orders">Orders</a></li>
+                        <li><a href="/admin/complaints">Complaints</a></li>
+                        <li><a href="/admin/categories">Categories</a></li>
+                        <li><a href="/admin/inquiries">Inquiries</a></li>
+                      </ul>
+                    </li>
+                  {% endif %}
+                  <li><a href="/logout">Logout</a></li>
+                {% else %}
+                  <li><a href="/login">Login</a></li>
+                  <li><a href="/register">Register</a></li>
+                {% endif %}
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+
+      <!-- info bar -->
+      <div class="sb-info-bar">
+        <div class="sb-infobar-content">
+          <div class="sb-ib-title-frame sb-mb-30">
+            <h4>Contact</h4><i class="fas fa-arrow-down"></i>
+          </div>
+          <ul class="sb-list sb-mb-30">
+            <li><b>Email:</b><span>snackcart@gmail.com</span></li>
+            <li><b>Working hours:</b><span>09:00 - 21:00</span></li>
+            <li><b>Phone:</b><span>+91 98765 43210</span></li>
+          </ul>
+          <hr>
+          <div class="sb-ib-title-frame sb-mb-30">
+            <h4>Categories</h4><i class="fas fa-arrow-down"></i>
+          </div>
+          <ul class="sb-list sb-mb-30">
+            {% for cat in categories %}
+            <li><a href="/menu?category={{ cat.id }}">{{ cat.category_name }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="sb-info-bar-footer">
+          <ul class="sb-social">
+            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+            <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+          </ul>
+        </div>
+      </div>
+      <!-- info bar end -->
+    </div>
+    <!-- top bar end -->
+
+    {% block main %}{% endblock %}
+
+    <!-- footer -->
+    <footer>
+      <div class="container">
+        <div class="sb-footer-frame">
+          <a href="/" class="sb-logo-frame">
+            <img src="/static/img/ui/logo.png" alt="SnackCart">
+          </a>
+          <ul class="sb-social">
+            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+            <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+          </ul>
+          <div class="sb-copy">&copy; 2026 SnackCart. All Rights Reserved.</div>
+        </div>
+      </div>
+    </footer>
+    <!-- footer end -->
+
+  </div>
+  <!-- app wrapper end -->
+
+  <script src="{% static 'js/plugins/jquery.min.js' %}"></script>
+  <script src="{% static 'js/plugins/smooth-scroll.js' %}"></script>
+  <script src="{% static 'js/plugins/swup.min.js' %}"></script>
+  <script src="{% static 'js/plugins/swiper.min.js' %}"></script>
+  <script src="{% static 'js/plugins/datepicker.js' %}"></script>
+  <script src="{% static 'js/plugins/isotope.js' %}"></script>
+  <script src="{% static 'js/plugins/sticky.js' %}"></script>
+  <script src="{% static 'js/plugins/fancybox.min.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

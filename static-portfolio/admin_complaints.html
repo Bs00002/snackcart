@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block main %}
+{% include 'messages.html' %}
+<section class="sb-banner sb-banner-xs sb-banner-color">
+  <div class="container"><div class="sb-main-title-frame"><div class="sb-main-title">
+    <h1 class="sb-h2">Manage Complaints</h1>
+    <ul class="sb-breadcrumbs"><li><a href="/admin-dashboard">Dashboard</a></li><li><a href="#">Complaints</a></li></ul>
+  </div></div></div>
+</section>
+<section style="padding:60px 0;background:#f9f9f9;">
+  <div class="container">
+    {% for complaint in complaints %}
+    <div style="background:#fff;border-radius:16px;padding:22px;margin-bottom:15px;box-shadow:0 4px 15px rgba(0,0,0,0.06);">
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:15px;">
+        <div style="flex:1;">
+          <div style="display:flex;gap:15px;align-items:center;flex-wrap:wrap;margin-bottom:8px;">
+            <h6 style="font-weight:700;margin:0;">{{ complaint.issue_type }}</h6>
+            <span style="background:{% if complaint.status == 'Resolved' %}#e8f5e9;color:#388e3c{% elif complaint.status == 'Rejected' %}#fce4e4;color:#c62828{% else %}#fff3e0;color:#e65100{% endif %};padding:3px 12px;border-radius:15px;font-size:12px;font-weight:700;">{{ complaint.status }}</span>
+          </div>
+          <p style="font-size:13px;color:#888;margin:0 0 4px;">Order #{{ complaint.order.id }} | Customer: {{ complaint.customer.name }}</p>
+          <p style="font-size:13px;color:#555;margin:0;">{{ complaint.description }}</p>
+          {% if complaint.admin_note %}<p style="font-size:12px;color:#4caf50;margin:6px 0 0;"><strong>Note:</strong> {{ complaint.admin_note }}</p>{% endif %}
+          {% if complaint.refund_processed %}<p style="font-size:12px;color:#2196f3;margin:4px 0 0;"><i class="fas fa-check"></i> Refund Processed</p>{% endif %}
+        </div>
+        {% if complaint.status == 'Pending' %}
+        <div>
+          <button onclick="document.getElementById('modal{{ complaint.id }}').style.display='flex'" style="background:#F5C332;color:#fff;border:none;padding:8px 18px;border-radius:10px;font-weight:600;cursor:pointer;">Resolve</button>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Resolve Modal -->
+    <div id="modal{{ complaint.id }}" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;">
+      <div style="background:#fff;border-radius:20px;padding:35px;max-width:480px;width:90%;">
+        <h5 style="font-weight:700;margin-bottom:20px;">Resolve Complaint #{{ complaint.id }}</h5>
+        <form method="POST" action="/admin/resolve-complaint/{{ complaint.id }}">
+          {% csrf_token %}
+          <label style="font-weight:600;font-size:14px;display:block;margin-bottom:6px;">Admin Note</label>
+          <textarea name="admin_note" rows="3" style="width:100%;padding:12px;border:2px solid #eee;border-radius:10px;margin-bottom:16px;" placeholder="Add a note..."></textarea>
+          <label style="cursor:pointer;display:block;margin-bottom:16px;font-size:14px;"><input type="checkbox" name="refund" style="margin-right:8px;"> Process Refund</label>
+          <div style="display:flex;gap:10px;">
+            <button type="submit" name="action" value="resolve" style="flex:1;background:#4caf50;color:#fff;border:none;padding:12px;border-radius:10px;font-weight:700;cursor:pointer;">Resolve</button>
+            <button type="submit" name="action" value="reject" style="flex:1;background:#e53935;color:#fff;border:none;padding:12px;border-radius:10px;font-weight:700;cursor:pointer;">Reject</button>
+            <button type="button" onclick="document.getElementById('modal{{ complaint.id }}').style.display='none'" style="flex:1;background:#eee;color:#555;border:none;padding:12px;border-radius:10px;font-weight:700;cursor:pointer;">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    {% empty %}
+    <div style="text-align:center;padding:60px;"><p style="color:#aaa;">No complaints yet.</p></div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

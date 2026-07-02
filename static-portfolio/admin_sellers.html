@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block main %}
+{% include 'messages.html' %}
+<section class="sb-banner sb-banner-xs sb-banner-color">
+  <div class="container"><div class="sb-main-title-frame"><div class="sb-main-title">
+    <h1 class="sb-h2">Manage Sellers</h1>
+    <ul class="sb-breadcrumbs"><li><a href="/admin-dashboard">Dashboard</a></li><li><a href="#">Sellers</a></li></ul>
+  </div></div></div>
+</section>
+<section style="padding:60px 0;background:#f9f9f9;">
+  <div class="container">
+    {% for seller in sellers %}
+    <div style="background:#fff;border-radius:16px;padding:25px;margin-bottom:20px;box-shadow:0 4px 15px rgba(0,0,0,0.06);">
+      <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+        {% if seller.profile_photo %}<img src="{{ seller.profile_photo.url }}" style="width:65px;height:65px;border-radius:50%;object-fit:cover;">{% else %}<div style="width:65px;height:65px;border-radius:50%;background:#F5C332;display:flex;align-items:center;justify-content:center;"><i class="fas fa-store" style="color:#fff;font-size:24px;"></i></div>{% endif %}
+        <div style="flex:1;">
+          <h5 style="font-weight:700;margin:0;">{{ seller.kitchen_name }}</h5>
+          <p style="color:#888;font-size:13px;margin:4px 0;">{{ seller.kitchen_city }} | {{ seller.contact_email }} | {{ seller.mobile_number }}</p>
+          <p style="font-size:12px;color:#888;margin:0;">FSSAI: <a href="{{ seller.fssai_certificate.url }}" target="_blank" style="color:#F5C332;">View</a></p>
+        </div>
+        <div>
+          {% if seller.is_verified %}<span style="background:#e8f5e9;color:#388e3c;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;">Approved</span>
+          {% elif seller.user.status == '2' %}<span style="background:#fce4e4;color:#c62828;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;">Rejected</span>
+          {% else %}<span style="background:#fff3e0;color:#e65100;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;">Pending</span>{% endif %}
+        </div>
+        <div style="display:flex;gap:10px;">
+          {% if not seller.is_verified and seller.user.status != '2' %}
+          <a href="/admin/approve-seller/{{ seller.id }}" style="background:#4caf50;color:#fff;padding:8px 16px;border-radius:10px;text-decoration:none;font-weight:600;font-size:13px;">Approve</a>
+          <button onclick="document.getElementById('rf{{ seller.id }}').action='/admin/reject-seller/{{ seller.id }}';document.getElementById('rejectModal').style.display='flex';" style="background:#e53935;color:#fff;padding:8px 16px;border-radius:10px;border:none;font-weight:600;font-size:13px;cursor:pointer;">Reject</button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div style="text-align:center;padding:60px;"><p style="color:#aaa;">No sellers yet.</p></div>
+    {% endfor %}
+  </div>
+</section>
+<div id="rejectModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:20px;padding:35px;max-width:450px;width:90%;">
+    <h5 style="font-weight:700;margin-bottom:20px;">Reject Seller</h5>
+    <form method="POST" id="rf0">{% csrf_token %}
+      <textarea name="reason" rows="4" style="width:100%;padding:12px;border:2px solid #eee;border-radius:10px;" placeholder="Reason for rejection..."></textarea>
+      <div style="display:flex;gap:10px;margin-top:20px;">
+        <button type="submit" style="flex:1;background:#e53935;color:#fff;border:none;padding:12px;border-radius:10px;font-weight:700;cursor:pointer;">Reject</button>
+        <button type="button" onclick="document.getElementById('rejectModal').style.display='none'" style="flex:1;background:#eee;color:#555;border:none;padding:12px;border-radius:10px;font-weight:700;cursor:pointer;">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
