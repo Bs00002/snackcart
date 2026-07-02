@@ -1,5 +1,9 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load .env file for local development
+load_dotenv()
 
 try:
     import dj_database_url
@@ -12,8 +16,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 def env_bool(name, default=False):
     return os.getenv(name, str(default)).strip().lower() in {"1", "true", "yes", "on"}
 
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-snackcart-secret-key-2026-xyz')
-DEBUG = False
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
+
+if not SECRET_KEY:
+    raise Exception("DJANGO_SECRET_KEY environment variable is not set.")
+
+DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() == "true"
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
