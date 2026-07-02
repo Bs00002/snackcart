@@ -13,25 +13,27 @@ def env_bool(name, default=False):
     return os.getenv(name, str(default)).strip().lower() in {"1", "true", "yes", "on"}
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-snackcart-secret-key-2026-xyz')
-DEBUG = env_bool('DJANGO_DEBUG', True)
+DEBUG = False
 ALLOWED_HOSTS = [
-    host.strip()
-    for host in os.getenv('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost,.vercel.app,.onrender.com').split(',')
-    if host.strip()
+    "127.0.0.1",
+    "localhost",
+    ".vercel.app",
+    ".onrender.com",
 ]
+
+VERCEL_URL = os.environ.get("VERCEL_URL")
+if VERCEL_URL:
+    ALLOWED_HOSTS.append(VERCEL_URL)
 
 # Handle Render hostname
 render_hostname = os.getenv('RENDER_EXTERNAL_HOSTNAME')
 if render_hostname and render_hostname not in ALLOWED_HOSTS:
     ALLOWED_HOSTS.append(render_hostname)
 
-# Handle Vercel hostname
-vercel_url = os.getenv('VERCEL_URL')
-if vercel_url and vercel_url not in ALLOWED_HOSTS:
-    ALLOWED_HOSTS.append(vercel_url)
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.vercel.app",
+]
 
-csrf_hosts = os.getenv('DJANGO_CSRF_TRUSTED_ORIGINS', '')
-CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in csrf_hosts.split(',') if origin.strip()]
 INSTALLED_APPS = [
     'jazzmin',
     'django.contrib.admin',
