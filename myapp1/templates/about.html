@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block main %}
+{% include 'messages.html' %}
+<section class="sb-banner sb-banner-xs sb-banner-color">
+  <div class="container"><div class="sb-main-title-frame"><div class="sb-main-title">
+    <h1 class="sb-h2">About SnackCart</h1>
+    <ul class="sb-breadcrumbs"><li><a href="/">Home</a></li><li><a href="#">About</a></li></ul>
+  </div></div></div>
+</section>
+
+<section style="padding:80px 0;">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 mb-4">
+        <div style="background:linear-gradient(135deg,#F5C332,#ff8c42);border-radius:20px;padding:50px;text-align:center;">
+          <i class="fas fa-utensils" style="font-size:80px;color:#fff;margin-bottom:20px;"></i>
+          <h2 style="color:#fff;font-weight:800;">Home Made with Love</h2>
+          <p style="color:rgba(255,255,255,0.9);font-size:16px;margin:0;">Connecting home chefs with food lovers</p>
+        </div>
+      </div>
+      <div class="col-lg-6 mb-4">
+        <span style="background:#fff7ef;color:#F5C332;font-size:13px;padding:5px 16px;border-radius:20px;font-weight:700;">Our Story</span>
+        <h2 style="font-weight:800;margin:15px 0;color:#333;">We Bring Fresh <span style="color:#F5C332;">Home Food</span> to Your Doorstep</h2>
+        <p style="color:#666;line-height:1.8;margin-bottom:20px;">SnackCart is a marketplace platform that connects verified home chefs (Sellers) with food lovers (Customers). We believe in the power of home cooking — made with care, fresh ingredients, and authentic recipes.</p>
+        <p style="color:#666;line-height:1.8;margin-bottom:25px;">Every seller on SnackCart is FSSAI-certified and admin-verified to ensure you always receive safe, hygienic, and delicious food.</p>
+        <div class="row">
+          <div class="col-6 mb-3">
+            <div style="background:#fff7ef;border-radius:14px;padding:20px;text-align:center;">
+              <div style="font-size:28px;font-weight:800;color:#F5C332;">100%</div>
+              <p style="font-size:13px;color:#888;margin:0;">Verified Sellers</p>
+            </div>
+          </div>
+          <div class="col-6 mb-3">
+            <div style="background:#fff7ef;border-radius:14px;padding:20px;text-align:center;">
+              <div style="font-size:28px;font-weight:800;color:#F5C332;">FSSAI</div>
+              <p style="font-size:13px;color:#888;margin:0;">Certified Kitchens</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:60px 0;background:#f9f9f9;">
+  <div class="container">
+    <div class="sb-title-frame sb-mb-30 text-center">
+      <h2 class="sb-mb-15">Why Choose <span style="color:#F5C332;">SnackCart?</span></h2>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <div style="background:#fff;border-radius:16px;padding:30px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.06);">
+          <div style="width:70px;height:70px;background:#e8f5e9;border-radius:50%;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;">
+            <i class="fas fa-shield-alt" style="font-size:28px;color:#4caf50;"></i>
+          </div>
+          <h5 style="font-weight:700;">FSSAI Verified</h5>
+          <p style="color:#888;font-size:14px;">All sellers are FSSAI certified. We verify food safety documents before approving any seller.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div style="background:#fff;border-radius:16px;padding:30px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.06);">
+          <div style="width:70px;height:70px;background:#fff3e0;border-radius:50%;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;">
+            <i class="fas fa-heart" style="font-size:28px;color:#ff9800;"></i>
+          </div>
+          <h5 style="font-weight:700;">Made with Love</h5>
+          <p style="color:#888;font-size:14px;">Every item is handcrafted by passionate home chefs using fresh, quality ingredients.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div style="background:#fff;border-radius:16px;padding:30px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.06);">
+          <div style="width:70px;height:70px;background:#fce4e4;border-radius:50%;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;">
+            <i class="fas fa-truck" style="font-size:28px;color:#e53935;"></i>
+          </div>
+          <h5 style="font-weight:700;">Fresh Delivery</h5>
+          <p style="color:#888;font-size:14px;">Track your order in real-time. Fresh food prepared and delivered within your area.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

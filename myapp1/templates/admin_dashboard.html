@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% block main %}
+{% include 'messages.html' %}
+
+<section class="sb-banner sb-banner-xs sb-banner-color">
+  <div class="container">
+    <div class="sb-main-title-frame">
+      <div class="sb-main-title">
+        <h1 class="sb-h2">Admin Dashboard</h1>
+        <ul class="sb-breadcrumbs">
+          <li><a href="/">Home</a></li>
+          <li><a href="#">Admin</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:60px 0;background:#f9f9f9;">
+  <div class="container">
+    <!-- Stats -->
+    <div class="row mb-4">
+      <div class="col-md-2 col-4 mb-3">
+        <div style="background:#fff;border-radius:16px;padding:22px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.06);">
+          <div style="font-size:30px;font-weight:800;color:#2196f3;">{{ total_users }}</div>
+          <p style="color:#888;font-size:13px;margin:0;">Customers</p>
+        </div>
+      </div>
+      <div class="col-md-2 col-4 mb-3">
+        <div style="background:#fff;border-radius:16px;padding:22px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.06);">
+          <div style="font-size:30px;font-weight:800;color:#4caf50;">{{ total_sellers }}</div>
+          <p style="color:#888;font-size:13px;margin:0;">Sellers</p>
+        </div>
+      </div>
+      <div class="col-md-2 col-4 mb-3">
+        <div style="background:#fff;border-radius:16px;padding:22px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.06);">
+          <div style="font-size:30px;font-weight:800;color:#ff9800;">{{ pending_sellers }}</div>
+          <p style="color:#888;font-size:13px;margin:0;">Pending Sellers</p>
+        </div>
+      </div>
+      <div class="col-md-2 col-4 mb-3">
+        <div style="background:#fff;border-radius:16px;padding:22px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.06);">
+          <div style="font-size:30px;font-weight:800;color:#9c27b0;">{{ total_orders }}</div>
+          <p style="color:#888;font-size:13px;margin:0;">Total Orders</p>
+        </div>
+      </div>
+      <div class="col-md-2 col-4 mb-3">
+        <div style="background:#fff;border-radius:16px;padding:22px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.06);">
+          <div style="font-size:26px;font-weight:800;color:#F5C332;">₹{{ total_revenue|floatformat:0 }}</div>
+          <p style="color:#888;font-size:13px;margin:0;">Revenue</p>
+        </div>
+      </div>
+      <div class="col-md-2 col-4 mb-3">
+        <div style="background:#fff;border-radius:16px;padding:22px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.06);">
+          <div style="font-size:30px;font-weight:800;color:#e53935;">{{ pending_complaints }}</div>
+          <p style="color:#888;font-size:13px;margin:0;">Complaints</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Menu -->
+    <div class="row">
+      <div class="col-md-3 col-6 mb-3">
+        <a href="/admin/sellers" style="text-decoration:none;">
+          <div style="background:#fff;border-radius:16px;padding:25px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.06);transition:0.3s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+            <i class="fas fa-store" style="font-size:32px;color:#F5C332;margin-bottom:10px;"></i>
+            <h5 style="font-weight:700;color:#333;margin:0;">Manage Sellers</h5>
+            <p style="font-size:12px;color:#888;margin:4px 0 0;">Approve & verify sellers</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-3 col-6 mb-3">
+        <a href="/admin/users" style="text-decoration:none;">
+          <div style="background:#fff;border-radius:16px;padding:25px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.06);transition:0.3s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+            <i class="fas fa-users" style="font-size:32px;color:#2196f3;margin-bottom:10px;"></i>
+            <h5 style="font-weight:700;color:#333;margin:0;">Manage Users</h5>
+            <p style="font-size:12px;color:#888;margin:4px 0 0;">View customer accounts</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-3 col-6 mb-3">
+        <a href="/admin/orders" style="text-decoration:none;">
+          <div style="background:#fff;border-radius:16px;padding:25px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.06);transition:0.3s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+            <i class="fas fa-shopping-bag" style="font-size:32px;color:#4caf50;margin-bottom:10px;"></i>
+            <h5 style="font-weight:700;color:#333;margin:0;">All Orders</h5>
+            <p style="font-size:12px;color:#888;margin:4px 0 0;">Monitor all orders</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-3 col-6 mb-3">
+        <a href="/admin/complaints" style="text-decoration:none;">
+          <div style="background:#fff;border-radius:16px;padding:25px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.06);transition:0.3s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+            <i class="fas fa-exclamation-circle" style="font-size:32px;color:#e53935;margin-bottom:10px;"></i>
+            <h5 style="font-weight:700;color:#333;margin:0;">Complaints</h5>
+            <p style="font-size:12px;color:#888;margin:4px 0 0;">Handle & resolve issues</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-3 col-6 mb-3">
+        <a href="/admin/categories" style="text-decoration:none;">
+          <div style="background:#fff;border-radius:16px;padding:25px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.06);transition:0.3s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+            <i class="fas fa-tags" style="font-size:32px;color:#9c27b0;margin-bottom:10px;"></i>
+            <h5 style="font-weight:700;color:#333;margin:0;">Categories</h5>
+            <p style="font-size:12px;color:#888;margin:4px 0 0;">Manage product categories</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-3 col-6 mb-3">
+        <a href="/admin/inquiries" style="text-decoration:none;">
+          <div style="background:#fff;border-radius:16px;padding:25px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.06);transition:0.3s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+            <i class="fas fa-question-circle" style="font-size:32px;color:#ff9800;margin-bottom:10px;"></i>
+            <h5 style="font-weight:700;color:#333;margin:0;">Inquiries</h5>
+            <p style="font-size:12px;color:#888;margin:4px 0 0;">View user inquiries</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-3 col-6 mb-3">
+        <a href="/logout" style="text-decoration:none;">
+          <div style="background:#fff;border-radius:16px;padding:25px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.06);transition:0.3s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+            <i class="fas fa-sign-out-alt" style="font-size:32px;color:#607d8b;margin-bottom:10px;"></i>
+            <h5 style="font-weight:700;color:#333;margin:0;">Logout</h5>
+            <p style="font-size:12px;color:#888;margin:4px 0 0;">Sign out of admin</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

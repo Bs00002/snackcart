@@ -1,0 +1,188 @@
+from django.db import migrations, models
+import django.db.models.deletion
+import django.utils.timezone
+
+
+class Migration(migrations.Migration):
+
+    initial = True
+
+    dependencies = [
+    ]
+
+    operations = [
+        migrations.CreateModel(
+            name='User',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=150)),
+                ('email', models.CharField(max_length=150, unique=True)),
+                ('password', models.CharField(max_length=150)),
+                ('phone', models.CharField(blank=True, max_length=15, null=True)),
+                ('role', models.CharField(choices=[('Customer', 'Customer'), ('Seller', 'Seller'), ('Admin', 'Admin')], default='Customer', max_length=30)),
+                ('status', models.CharField(choices=[('0', 'Unapproved'), ('1', 'Approved'), ('2', 'Rejected')], default='1', max_length=10)),
+                ('profile_image', models.ImageField(blank=True, null=True, upload_to='profile_images/')),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Category',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('category_name', models.CharField(max_length=100)),
+                ('category_photo', models.ImageField(blank=True, null=True, upload_to='category_images/')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Contact',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=150)),
+                ('email', models.EmailField(max_length=254)),
+                ('subject', models.CharField(max_length=200)),
+                ('message', models.TextField()),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='SellerProfile',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('kitchen_name', models.CharField(max_length=200)),
+                ('contact_email', models.CharField(max_length=150)),
+                ('mobile_number', models.CharField(max_length=15)),
+                ('kitchen_address', models.TextField()),
+                ('kitchen_city', models.CharField(max_length=100)),
+                ('kitchen_pincode', models.CharField(max_length=10)),
+                ('pan_card', models.FileField(blank=True, null=True, upload_to='seller_docs/')),
+                ('aadhaar_card', models.FileField(blank=True, null=True, upload_to='seller_docs/')),
+                ('fssai_certificate', models.FileField(upload_to='seller_docs/')),
+                ('bank_account', models.CharField(blank=True, max_length=100, null=True)),
+                ('upi_id', models.CharField(blank=True, max_length=100, null=True)),
+                ('profile_photo', models.ImageField(blank=True, null=True, upload_to='seller_images/')),
+                ('kitchen_image', models.ImageField(blank=True, null=True, upload_to='seller_images/')),
+                ('opening_time', models.TimeField()),
+                ('closing_time', models.TimeField()),
+                ('available_days', models.CharField(default='Mon,Tue,Wed,Thu,Fri,Sat,Sun', max_length=100)),
+                ('is_verified', models.BooleanField(default=False)),
+                ('rejection_reason', models.TextField(blank=True, null=True)),
+                ('rating', models.FloatField(default=0.0)),
+                ('total_orders', models.PositiveIntegerField(default=0)),
+                ('free_orders_used', models.PositiveIntegerField(default=0)),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='myapp1.user')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Subscription',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('amount', models.FloatField(default=199.0)),
+                ('start_date', models.DateField()),
+                ('end_date', models.DateField()),
+                ('is_active', models.BooleanField(default=True)),
+                ('razorpay_payment_id', models.CharField(blank=True, max_length=255, null=True)),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('seller', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='myapp1.sellerprofile')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Product',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('product_name', models.CharField(max_length=150)),
+                ('description', models.TextField()),
+                ('ingredients', models.TextField()),
+                ('expiry_time', models.CharField(max_length=100)),
+                ('preparation_time', models.CharField(max_length=100)),
+                ('estimated_delivery_time', models.CharField(blank=True, max_length=100, null=True)),
+                ('quantity_unit', models.CharField(choices=[('Per Piece', 'Per Piece'), ('Per Plate', 'Per Plate'), ('250g', '250g'), ('500g', '500g'), ('1 KG', '1 KG'), ('Custom', 'Custom')], default='Per Piece', max_length=30)),
+                ('custom_unit', models.CharField(blank=True, max_length=50, null=True)),
+                ('price', models.FloatField()),
+                ('stock_qty', models.PositiveIntegerField(default=0)),
+                ('max_orders_per_day', models.PositiveIntegerField(default=10)),
+                ('is_customizable', models.BooleanField(default=False)),
+                ('product_photo', models.ImageField(upload_to='product_images/')),
+                ('status', models.CharField(choices=[('Available', 'Available'), ('Unavailable', 'Unavailable')], default='Available', max_length=20)),
+                ('ordered_count', models.PositiveIntegerField(default=0)),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='myapp1.category')),
+                ('seller', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='myapp1.user')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='CustomerAddress',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('receiver_name', models.CharField(max_length=150)),
+                ('contact_number', models.CharField(max_length=15)),
+                ('full_address', models.TextField()),
+                ('landmark', models.CharField(blank=True, max_length=200, null=True)),
+                ('is_default', models.BooleanField(default=False)),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='myapp1.user')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Order',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('quantity', models.PositiveIntegerField(default=1)),
+                ('food_price', models.FloatField()),
+                ('platform_fee', models.FloatField(default=10.0)),
+                ('delivery_charge', models.FloatField(default=40.0)),
+                ('total_amount', models.FloatField()),
+                ('payment_mode', models.CharField(choices=[('online', 'Online Payment'), ('cod', 'Cash on Delivery')], max_length=20)),
+                ('payment_status', models.CharField(choices=[('Pending', 'Pending'), ('Paid', 'Paid'), ('Failed', 'Failed'), ('Refunded', 'Refunded')], default='Pending', max_length=20)),
+                ('order_status', models.CharField(choices=[('Pending', 'Pending'), ('Accepted', 'Accepted'), ('Preparing', 'Preparing'), ('Ready for Pickup', 'Ready for Pickup'), ('Out for Delivery', 'Out for Delivery'), ('Delivered', 'Delivered'), ('Completed', 'Completed'), ('Cancelled', 'Cancelled')], default='Pending', max_length=30)),
+                ('delivery_address', models.TextField()),
+                ('customization_note', models.TextField(blank=True, null=True)),
+                ('customization_image', models.ImageField(blank=True, null=True, upload_to='customization/')),
+                ('razorpay_order_id', models.CharField(blank=True, max_length=255, null=True)),
+                ('razorpay_payment_id', models.CharField(blank=True, max_length=255, null=True)),
+                ('razorpay_signature', models.CharField(blank=True, max_length=255, null=True)),
+                ('commission_percent', models.FloatField(default=10.0)),
+                ('seller_earning', models.FloatField(default=0.0)),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('customer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='customer_orders', to='myapp1.user')),
+                ('seller', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='seller_orders', to='myapp1.user')),
+                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='myapp1.product')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Review',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('rating', models.PositiveIntegerField()),
+                ('comment', models.TextField()),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('customer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='myapp1.user')),
+                ('order', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='myapp1.order')),
+                ('seller', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='myapp1.sellerprofile')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Complaint',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('issue_type', models.CharField(choices=[('Wrong item delivered', 'Wrong item delivered'), ('Food quality issue', 'Food quality issue'), ('Late delivery', 'Late delivery'), ('Missing item', 'Missing item'), ('Other', 'Other')], max_length=50)),
+                ('description', models.TextField()),
+                ('status', models.CharField(choices=[('Pending', 'Pending'), ('Under Review', 'Under Review'), ('Resolved', 'Resolved'), ('Rejected', 'Rejected')], default='Pending', max_length=30)),
+                ('admin_note', models.TextField(blank=True, null=True)),
+                ('refund_processed', models.BooleanField(default=False)),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('customer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='myapp1.user')),
+                ('order', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='myapp1.order')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Inquiry',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('subject', models.CharField(max_length=150)),
+                ('message', models.TextField()),
+                ('status', models.CharField(default='Pending', max_length=50)),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='myapp1.user')),
+            ],
+        ),
+    ]

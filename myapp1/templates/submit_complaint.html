@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block main %}
+{% include 'messages.html' %}
+<section class="sb-banner sb-banner-xs sb-banner-color"><div class="container"><div class="sb-main-title-frame"><div class="sb-main-title"><h1 class="sb-h2">Report Issue</h1></div></div></div></section>
+<section style="padding:60px 0;">
+  <div class="container">
+    <div style="max-width:550px;margin:auto;background:#fff;border-radius:20px;padding:35px;box-shadow:0 8px 30px rgba(0,0,0,0.08);">
+      <h4 style="font-weight:700;margin-bottom:8px;">Report an Issue</h4>
+      <p style="color:#888;margin-bottom:25px;">Order #{{ order.id }} - {{ order.product.product_name }}</p>
+      <form method="POST" action="/customer/complaint/{{ order.id }}">
+        {% csrf_token %}
+        <label style="font-size:14px;font-weight:600;display:block;margin-bottom:8px;">Issue Type</label>
+        <select name="issue_type" style="width:100%;padding:12px;border:2px solid #eee;border-radius:10px;font-size:14px;margin-bottom:16px;" required>
+          <option value="">Select Issue</option>
+          <option value="Wrong item delivered">Wrong item delivered</option>
+          <option value="Food quality issue">Food quality issue</option>
+          <option value="Late delivery">Late delivery</option>
+          <option value="Missing item">Missing item</option>
+          <option value="Other">Other</option>
+        </select>
+        <label style="font-size:14px;font-weight:600;display:block;margin-bottom:8px;">Description</label>
+        <textarea name="description" rows="5" style="width:100%;padding:12px;border:2px solid #eee;border-radius:10px;font-size:14px;margin-bottom:20px;" placeholder="Describe your issue in detail..." required></textarea>
+        <button type="submit" style="width:100%;height:50px;background:#e53935;border:none;border-radius:12px;color:#fff;font-size:16px;font-weight:700;cursor:pointer;">Submit Complaint</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

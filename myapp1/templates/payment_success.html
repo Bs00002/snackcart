@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block main %}
+<section style="padding:100px 0;background:#f9f9f9;">
+  <div class="container">
+    <div style="max-width:480px;margin:auto;background:#fff;border-radius:20px;padding:50px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,0.08);">
+      {% if success %}
+      <div style="width:90px;height:90px;background:#e8f5e9;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 25px;">
+        <i class="fas fa-check-circle" style="font-size:50px;color:#4caf50;"></i>
+      </div>
+      <h2 style="font-weight:800;color:#333;margin-bottom:10px;">Payment Successful!</h2>
+      <p style="color:#888;margin-bottom:25px;">Your order has been confirmed. The seller will start preparing your food soon.</p>
+      {% if order %}
+      <div style="background:#f9f9f9;border-radius:12px;padding:15px;margin-bottom:25px;text-align:left;">
+        <p style="margin:0 0 5px;font-size:14px;"><strong>Order #{{ order.id }}</strong></p>
+        <p style="margin:0;font-size:13px;color:#888;">Amount Paid: ₹{{ order.total_amount }}</p>
+      </div>
+      {% endif %}
+      <a href="/customer/orders" style="background:#F5C332;color:#fff;padding:14px 35px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;display:inline-block;">Track My Order</a>
+      {% else %}
+      <div style="width:90px;height:90px;background:#fce4e4;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 25px;">
+        <i class="fas fa-times-circle" style="font-size:50px;color:#e53935;"></i>
+      </div>
+      <h2 style="font-weight:800;color:#333;margin-bottom:10px;">Payment Failed</h2>
+      <p style="color:#888;margin-bottom:25px;">Something went wrong with your payment. Please try again.</p>
+      <a href="/menu" style="background:#F5C332;color:#fff;padding:14px 35px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;display:inline-block;">Browse Menu</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

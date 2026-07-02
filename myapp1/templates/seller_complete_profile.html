@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block main %}
+{% include 'messages.html' %}
+<section class="sb-banner sb-banner-xs sb-banner-color">
+  <div class="container"><div class="sb-main-title-frame"><div class="sb-main-title">
+    <h1 class="sb-h2">Complete Seller Profile</h1>
+    <ul class="sb-breadcrumbs"><li><a href="/">Home</a></li><li><a href="#">Profile</a></li></ul>
+  </div></div></div>
+</section>
+<section style="padding:60px 0;">
+  <div class="container">
+    <div style="max-width:750px;margin:auto;background:#fff;border-radius:20px;padding:40px;box-shadow:0 8px 30px rgba(0,0,0,0.08);">
+      <h4 style="font-weight:700;margin-bottom:25px;">Seller Profile Details</h4>
+      <form method="POST" action="/seller/complete-profile" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-md-6 mb-3"><label style="font-weight:600;font-size:14px;">Kitchen/Business Name *</label><input type="text" name="kitchen_name" class="form-control" value="{% if existing %}{{ existing.kitchen_name }}{% endif %}" required style="border-radius:10px;border:2px solid #eee;padding:12px;"></div>
+          <div class="col-md-6 mb-3"><label style="font-weight:600;font-size:14px;">Contact Email *</label><input type="email" name="contact_email" class="form-control" value="{% if existing %}{{ existing.contact_email }}{% endif %}" required style="border-radius:10px;border:2px solid #eee;padding:12px;"></div>
+          <div class="col-md-6 mb-3"><label style="font-weight:600;font-size:14px;">Mobile Number *</label><input type="text" name="mobile_number" class="form-control" value="{% if existing %}{{ existing.mobile_number }}{% endif %}" required style="border-radius:10px;border:2px solid #eee;padding:12px;"></div>
+          <div class="col-md-6 mb-3"><label style="font-weight:600;font-size:14px;">Kitchen City *</label><input type="text" name="kitchen_city" class="form-control" value="{% if existing %}{{ existing.kitchen_city }}{% endif %}" required style="border-radius:10px;border:2px solid #eee;padding:12px;"></div>
+          <div class="col-md-8 mb-3"><label style="font-weight:600;font-size:14px;">Kitchen Address *</label><textarea name="kitchen_address" class="form-control" rows="3" required style="border-radius:10px;border:2px solid #eee;padding:12px;">{% if existing %}{{ existing.kitchen_address }}{% endif %}</textarea></div>
+          <div class="col-md-4 mb-3"><label style="font-weight:600;font-size:14px;">Pincode *</label><input type="text" name="kitchen_pincode" class="form-control" value="{% if existing %}{{ existing.kitchen_pincode }}{% endif %}" required style="border-radius:10px;border:2px solid #eee;padding:12px;"></div>
+          <div class="col-md-6 mb-3"><label style="font-weight:600;font-size:14px;">Bank Account / IFSC</label><input type="text" name="bank_account" class="form-control" value="{% if existing %}{{ existing.bank_account }}{% endif %}" style="border-radius:10px;border:2px solid #eee;padding:12px;"></div>
+          <div class="col-md-6 mb-3"><label style="font-weight:600;font-size:14px;">UPI ID</label><input type="text" name="upi_id" class="form-control" value="{% if existing %}{{ existing.upi_id }}{% endif %}" style="border-radius:10px;border:2px solid #eee;padding:12px;"></div>
+          <div class="col-md-6 mb-3"><label style="font-weight:600;font-size:14px;">Opening Time *</label><input type="time" name="opening_time" class="form-control" value="{% if existing %}{{ existing.opening_time|time:'H:i' }}{% endif %}" required style="border-radius:10px;border:2px solid #eee;padding:12px;"></div>
+          <div class="col-md-6 mb-3"><label style="font-weight:600;font-size:14px;">Closing Time *</label><input type="time" name="closing_time" class="form-control" value="{% if existing %}{{ existing.closing_time|time:'H:i' }}{% endif %}" required style="border-radius:10px;border:2px solid #eee;padding:12px;"></div>
+          <div class="col-12 mb-3">
+            <label style="font-weight:600;font-size:14px;">Available Days</label>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;">
+              {% for day in days %}
+              <label style="cursor:pointer;"><input type="checkbox" name="available_days" value="{{ day }}" checked style="margin-right:4px;">{{ day }}</label>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="col-md-6 mb-3"><label style="font-weight:600;font-size:14px;">FSSAI Certificate *</label><input type="file" name="fssai_certificate" class="form-control" style="border-radius:10px;border:2px solid #eee;padding:10px;" {% if not existing %}required{% endif %}></div>
+          <div class="col-md-6 mb-3"><label style="font-weight:600;font-size:14px;">PAN Card</label><input type="file" name="pan_card" class="form-control" style="border-radius:10px;border:2px solid #eee;padding:10px;"></div>
+          <div class="col-md-6 mb-3"><label style="font-weight:600;font-size:14px;">Aadhaar Card</label><input type="file" name="aadhaar_card" class="form-control" style="border-radius:10px;border:2px solid #eee;padding:10px;"></div>
+          <div class="col-md-6 mb-3"><label style="font-weight:600;font-size:14px;">Profile Photo</label><input type="file" name="profile_photo" class="form-control" accept="image/*" style="border-radius:10px;border:2px solid #eee;padding:10px;"></div>
+          <div class="col-md-6 mb-3"><label style="font-weight:600;font-size:14px;">Kitchen Image</label><input type="file" name="kitchen_image" class="form-control" accept="image/*" style="border-radius:10px;border:2px solid #eee;padding:10px;"></div>
+          <div class="col-12 mt-3">
+            <button type="submit" style="width:100%;height:52px;background:#F5C332;border:none;border-radius:12px;color:#fff;font-size:16px;font-weight:700;cursor:pointer;">Submit for Admin Approval</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

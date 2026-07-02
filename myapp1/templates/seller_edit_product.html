@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block main %}
+{% include 'messages.html' %}
+<section class="sb-banner sb-banner-xs sb-banner-color"><div class="container"><div class="sb-main-title-frame"><div class="sb-main-title"><h1 class="sb-h2">Edit Product</h1></div></div></div></section>
+<section style="padding:60px 0;">
+  <div class="container">
+    <div style="max-width:750px;margin:auto;background:#fff;border-radius:20px;padding:40px;box-shadow:0 8px 30px rgba(0,0,0,0.08);">
+      <h4 style="font-weight:700;margin-bottom:25px;">Edit Product</h4>
+      <form method="POST" action="/seller/edit-product/{{ product.id }}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-md-8 mb-3"><label style="font-weight:600;font-size:14px;">Product Name</label><input type="text" name="product_name" value="{{ product.product_name }}" class="form-control" required style="border-radius:10px;border:2px solid #eee;padding:12px;"></div>
+          <div class="col-md-4 mb-3"><label style="font-weight:600;font-size:14px;">Category</label>
+            <select name="category" class="form-control" required style="border-radius:10px;border:2px solid #eee;padding:12px;">
+              {% for cat in categories %}<option value="{{ cat.id }}" {% if cat.id == product.category_id %}selected{% endif %}>{{ cat.category_name }}</option>{% endfor %}
+            </select>
+          </div>
+          <div class="col-12 mb-3"><label style="font-weight:600;font-size:14px;">Description</label><textarea name="description" class="form-control" rows="3" required style="border-radius:10px;border:2px solid #eee;padding:12px;">{{ product.description }}</textarea></div>
+          <div class="col-12 mb-3"><label style="font-weight:600;font-size:14px;">Ingredients</label><textarea name="ingredients" class="form-control" rows="2" required style="border-radius:10px;border:2px solid #eee;padding:12px;">{{ product.ingredients }}</textarea></div>
+          <div class="col-md-4 mb-3"><label style="font-weight:600;font-size:14px;">Expiry / Shelf Life</label><input type="text" name="expiry_time" value="{{ product.expiry_time }}" class="form-control" required style="border-radius:10px;border:2px solid #eee;padding:12px;"></div>
+          <div class="col-md-4 mb-3"><label style="font-weight:600;font-size:14px;">Preparation Time</label><input type="text" name="preparation_time" value="{{ product.preparation_time }}" class="form-control" required style="border-radius:10px;border:2px solid #eee;padding:12px;"></div>
+          <div class="col-md-4 mb-3"><label style="font-weight:600;font-size:14px;">Est. Delivery Time</label><input type="text" name="estimated_delivery_time" value="{{ product.estimated_delivery_time }}" class="form-control" style="border-radius:10px;border:2px solid #eee;padding:12px;"></div>
+          <div class="col-md-4 mb-3"><label style="font-weight:600;font-size:14px;">Quantity Unit</label>
+            <select name="quantity_unit" class="form-control" style="border-radius:10px;border:2px solid #eee;padding:12px;">
+              {% for unit in unitsperplat %}<option {% if product.quantity_unit == unit %}selected{% endif %}>{{ unit }}</option>{% endfor %}
+            </select>
+          </div>
+          <div class="col-md-4 mb-3"><label style="font-weight:600;font-size:14px;">Price (₹)</label><input type="number" name="price" value="{{ product.price }}" class="form-control" required style="border-radius:10px;border:2px solid #eee;padding:12px;"></div>
+          <div class="col-md-4 mb-3"><label style="font-weight:600;font-size:14px;">Stock Qty</label><input type="number" name="stock_qty" value="{{ product.stock_qty }}" class="form-control" style="border-radius:10px;border:2px solid #eee;padding:12px;"></div>
+          <div class="col-md-4 mb-3"><label style="font-weight:600;font-size:14px;">Max Orders/Day</label><input type="number" name="max_orders_per_day" value="{{ product.max_orders_per_day }}" class="form-control" style="border-radius:10px;border:2px solid #eee;padding:12px;"></div>
+          <div class="col-md-4 mb-3"><label style="font-weight:600;font-size:14px;">Status</label>
+            <select name="status" class="form-control" style="border-radius:10px;border:2px solid #eee;padding:12px;">
+              <option {% if product.status == 'Available' %}selected{% endif %}>Available</option>
+              <option {% if product.status == 'Unavailable' %}selected{% endif %}>Unavailable</option>
+            </select>
+          </div>
+          <div class="col-md-4 mb-3 d-flex align-items-end"><label style="cursor:pointer;"><input type="checkbox" name="is_customizable" {% if product.is_customizable %}checked{% endif %} style="margin-right:8px;"> Allow Customization</label></div>
+          <div class="col-md-6 mb-3"><label style="font-weight:600;font-size:14px;">New Product Photo (optional)</label><input type="file" name="product_photo" class="form-control" accept="image/*" style="border-radius:10px;border:2px solid #eee;padding:10px;">
+            {% if product.product_photo %}<img src="{{ product.product_photo.url }}" style="width:80px;height:80px;object-fit:cover;border-radius:10px;margin-top:8px;">{% endif %}
+          </div>
+          <div class="col-12 mt-3"><button type="submit" style="width:100%;height:52px;background:#F5C332;border:none;border-radius:12px;color:#fff;font-size:16px;font-weight:700;cursor:pointer;">Update Product</button></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

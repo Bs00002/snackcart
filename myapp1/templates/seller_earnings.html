@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block main %}
+{% include 'messages.html' %}
+<section class="sb-banner sb-banner-xs sb-banner-color">
+  <div class="container"><div class="sb-main-title-frame"><div class="sb-main-title">
+    <h1 class="sb-h2">My Earnings</h1>
+    <ul class="sb-breadcrumbs"><li><a href="/seller/dashboard">Dashboard</a></li><li><a href="#">Earnings</a></li></ul>
+  </div></div></div>
+</section>
+<section style="padding:60px 0;background:#f9f9f9;">
+  <div class="container">
+    <!-- Summary cards -->
+    <div class="row mb-4">
+      <div class="col-md-4 mb-3">
+        <div style="background:linear-gradient(135deg,#F5C332,#ff8c42);border-radius:16px;padding:25px;text-align:center;color:#fff;">
+          <p style="opacity:0.9;font-size:14px;margin-bottom:5px;">Total Earnings</p>
+          <div style="font-size:34px;font-weight:800;">₹{{ total_earnings|floatformat:0 }}</div>
+          <p style="opacity:0.8;font-size:12px;margin-top:5px;margin-bottom:0;">After platform commission</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div style="background:#fff;border-radius:16px;padding:25px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.06);">
+          <p style="color:#888;font-size:14px;margin-bottom:5px;">Commission Paid</p>
+          <div style="font-size:34px;font-weight:800;color:#e53935;">₹{{ total_commission|floatformat:0 }}</div>
+          <p style="color:#aaa;font-size:12px;margin-top:5px;margin-bottom:0;">10% platform fee</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <div style="background:#fff;border-radius:16px;padding:25px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.06);">
+          <p style="color:#888;font-size:14px;margin-bottom:5px;">Completed Orders</p>
+          <div style="font-size:34px;font-weight:800;color:#4caf50;">{{ completed_orders.count }}</div>
+          <p style="color:#aaa;font-size:12px;margin-top:5px;margin-bottom:0;">Orders delivered</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subscription Status -->
+    <div style="background:#fff;border-radius:16px;padding:20px;margin-bottom:25px;box-shadow:0 4px 15px rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px;">
+      <div>
+        <h6 style="font-weight:700;margin:0;">Subscription Status</h6>
+        <p style="color:#888;font-size:13px;margin:4px 0 0;">Free orders used: {{ seller_profile.free_orders_used }}/11</p>
+      </div>
+      {% if subscription_active %}
+      <span style="background:#e8f5e9;color:#388e3c;padding:8px 20px;border-radius:20px;font-weight:700;font-size:13px;"><i class="fas fa-check-circle"></i> Active</span>
+      {% else %}
+      <div style="display:flex;align-items:center;gap:15px;">
+        <span style="background:#fce4e4;color:#c62828;padding:8px 20px;border-radius:20px;font-weight:700;font-size:13px;">Inactive</span>
+        <a href="/seller/subscription" style="background:#F5C332;color:#fff;padding:8px 20px;border-radius:10px;text-decoration:none;font-weight:700;font-size:13px;">Renew ₹199/mo</a>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Order Details -->
+    <div style="background:#fff;border-radius:16px;padding:25px;box-shadow:0 4px 15px rgba(0,0,0,0.06);">
+      <h5 style="font-weight:700;margin-bottom:20px;">Earning History</h5>
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;">
+          <thead>
+            <tr style="background:#f9f9f9;">
+              <th style="padding:12px;text-align:left;font-size:13px;color:#555;font-weight:700;">Order #</th>
+              <th style="padding:12px;text-align:left;font-size:13px;color:#555;font-weight:700;">Product</th>
+              <th style="padding:12px;text-align:left;font-size:13px;color:#555;font-weight:700;">Food Price</th>
+              <th style="padding:12px;text-align:left;font-size:13px;color:#555;font-weight:700;">Commission(10%)</th>
+              <th style="padding:12px;text-align:left;font-size:13px;color:#555;font-weight:700;">You Receive</th>
+              <th style="padding:12px;text-align:left;font-size:13px;color:#555;font-weight:700;">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in completed_orders %}
+            <tr style="border-bottom:1px solid #f0f0f0;">
+              <td style="padding:12px;font-size:13px;">#{{ order.id }}</td>
+              <td style="padding:12px;font-size:13px;">{{ order.product.product_name }}</td>
+              <td style="padding:12px;font-size:13px;">₹{{ order.food_price }}</td>
+              <td style="padding:12px;font-size:13px;color:#e53935;">-₹{{ order.food_price|floatformat:0 }}×10%</td>
+              <td style="padding:12px;font-size:13px;font-weight:700;color:#4caf50;">₹{{ order.seller_earning|floatformat:0 }}</td>
+              <td style="padding:12px;font-size:12px;color:#aaa;">{{ order.created_at|date:"d M Y" }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6" style="padding:40px;text-align:center;color:#aaa;">No completed orders yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

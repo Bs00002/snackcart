@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: snackcart
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn myproject.wsgi --log-file -"
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: "false"
+      - key: DJANGO_ALLOWED_HOSTS
+        value: ".onrender.com"

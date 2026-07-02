@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% block main %}
+{% include 'messages.html' %}
+
+<section class="sb-banner sb-banner-xs sb-banner-color">
+  <div class="container">
+    <div class="sb-main-title-frame">
+      <div class="sb-main-title">
+        <h1 class="sb-h2">Place Order</h1>
+        <ul class="sb-breadcrumbs">
+          <li><a href="/">Home</a></li>
+          <li><a href="/menu">Menu</a></li>
+          <li><a href="#">Order</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:60px 0;">
+  <div class="container">
+    <div class="row">
+      <!-- Order Form -->
+      <div class="col-lg-7 mb-4">
+        <div style="background:#fff;border-radius:20px;padding:35px;box-shadow:0 8px 30px rgba(0,0,0,0.08);">
+          <h4 style="font-weight:700;margin-bottom:25px;">Order Details</h4>
+          <form method="POST" action="/confirm-order" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{ product.id }}">
+
+            <!-- Quantity -->
+            <div class="mb-4">
+              <label style="font-size:14px;font-weight:600;color:#555;display:block;margin-bottom:8px;">Quantity</label>
+              <div style="display:flex;align-items:center;gap:15px;">
+                <button type="button" onclick="changeQty(-1)" style="width:40px;height:40px;background:#eee;border:none;border-radius:8px;font-size:18px;cursor:pointer;">-</button>
+                <input type="number" name="quantity" id="qtyInput" value="{{ quantity }}" min="1" max="{{ product.stock_qty }}" style="width:70px;text-align:center;padding:8px;border:2px solid #eee;border-radius:8px;font-size:16px;font-weight:700;">
+                <button type="button" onclick="changeQty(1)" style="width:40px;height:40px;background:#eee;border:none;border-radius:8px;font-size:18px;cursor:pointer;">+</button>
+                <span style="font-size:13px;color:#aaa;">Max: {{ product.stock_qty }}</span>
+              </div>
+            </div>
+
+            <!-- Delivery Address -->
+            <div class="mb-4">
+              <label style="font-size:14px;font-weight:600;color:#555;display:block;margin-bottom:8px;">Delivery Address</label>
+              {% for addr in addresses %}
+              <div style="border:2px solid {% if addr.is_default %}#F5C332{% else %}#eee{% endif %};border-radius:12px;padding:15px;margin-bottom:10px;cursor:pointer;" onclick="selectAddress('{{ addr.id }}', this)">
+                <input type="radio" name="address_id" value="{{ addr.id }}" {% if addr.is_default %}checked{% endif %} style="margin-right:10px;">
+                <strong>{{ addr.receiver_name }}</strong> - {{ addr.contact_number }}<br>
+                <span style="font-size:13px;color:#666;">{{ addr.full_address }}{% if addr.landmark %}, Near {{ addr.landmark }}{% endif %}</span>
+                {% if addr.is_default %}<span style="font-size:11px;background:#F5C332;color:#fff;padding:2px 8px;border-radius:10px;margin-left:8px;">Default</span>{% endif %}
+              </div>
+              {% endfor %}
+              <a href="/customer/add-address" style="font-size:13px;color:#F5C332;font-weight:600;"><i class="fas fa-plus"></i> Add New Address</a>
+            </div>
+
+            <!-- Customization -->
+            {% if product.is_customizable %}
+            <div class="mb-4">
+              <label style="font-size:14px;font-weight:600;color:#555;display:block;margin-bottom:8px;"><i class="fas fa-paint-brush" style="color:#F5C332;"></i> Customization (Optional)</label>
+              <textarea name="customization_note" rows="3" placeholder="Describe your customization..." style="width:100%;padding:12px;border:2px solid #eee;border-radius:10px;font-size:14px;resize:vertical;"></textarea>
+              <label style="font-size:13px;color:#888;margin-top:8px;display:block;">Upload Reference Image (Optional)</label>
+              <input type="file" name="customization_image" accept="image/*" style="margin-top:5px;">
+            </div>
+            {% endif %}
+
+            <!-- Payment Mode -->
+            <div class="mb-4">
+              <label style="font-size:14px;font-weight:600;color:#555;display:block;margin-bottom:12px;">Payment Method</label>
+              <div class="row">
+                <div class="col-6">
+                  <label style="border:2px solid #eee;border-radius:12px;padding:15px;cursor:pointer;display:block;text-align:center;transition:0.3s;" id="codLabel">
+                    <input type="radio" name="payment_mode" value="cod" checked style="margin-right:8px;" onchange="togglePayment('cod')">
+                    <i class="fas fa-money-bill-wave" style="color:#4caf50;font-size:22px;display:block;margin:8px auto 6px;"></i>
+                    Cash on Delivery
+                  </label>
+                </div>
+                <div class="col-6">
+                  <label style="border:2px solid #eee;border-radius:12px;padding:15px;cursor:pointer;display:block;text-align:center;transition:0.3s;" id="onlineLabel">
+                    <input type="radio" name="payment_mode" value="online" style="margin-right:8px;" onchange="togglePayment('online')">
+                    <i class="fas fa-credit-card" style="color:#2196f3;font-size:22px;display:block;margin:8px auto 6px;"></i>
+                    Online Payment
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" style="width:100%;height:52px;background:#F5C332;border:none;border-radius:12px;color:#fff;font-size:16px;font-weight:700;cursor:pointer;transition:0.3s;" onmouseover="this.style.background='#e0b020'" onmouseout="this.style.background='#F5C332'">
+              Confirm Order
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="col-lg-5 mb-4">
+        <div style="background:#fff;border-radius:20px;padding:35px;box-shadow:0 8px 30px rgba(0,0,0,0.08);position:sticky;top:100px;">
+          <h4 style="font-weight:700;margin-bottom:25px;">Order Summary</h4>
+          <div style="display:flex;gap:15px;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid #eee;">
+            {% if product.product_photo %}
+            <img src="{{ product.product_photo.url }}" style="width:70px;height:70px;border-radius:12px;object-fit:cover;">
+            {% endif %}
+            <div>
+              <h6 style="font-weight:700;margin-bottom:4px;">{{ product.product_name }}</h6>
+              <p style="font-size:13px;color:#888;margin-bottom:2px;">{{ product.category.category_name }}</p>
+              <p style="font-size:13px;color:#888;margin:0;"><i class="fas fa-clock" style="color:#F5C332;"></i> Prep: {{ product.preparation_time }}</p>
+            </div>
+          </div>
+
+          <div style="space-y:10px;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+              <span style="color:#666;font-size:14px;">Food Price</span>
+              <span style="font-weight:600;">₹{{ food_price }}</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+              <span style="color:#666;font-size:14px;">Platform Fee</span>
+              <span style="font-weight:600;">₹{{ platform_fee }}</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:12px;padding-bottom:15px;border-bottom:1px solid #eee;">
+              <span style="color:#666;font-size:14px;">Delivery Charge</span>
+              <span style="font-weight:600;">₹{{ delivery_charge }}</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;">
+              <span style="font-size:16px;font-weight:800;color:#333;">Total</span>
+              <span style="font-size:22px;font-weight:800;color:#F5C332;">₹{{ total }}</span>
+            </div>
+          </div>
+
+          <div style="background:#e8f5e9;border-radius:12px;padding:15px;margin-top:20px;font-size:13px;color:#388e3c;">
+            <i class="fas fa-shield-alt"></i> Secure & verified payment. Your data is protected.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+function changeQty(delta) {
+  var inp = document.getElementById('qtyInput');
+  var val = parseInt(inp.value) + delta;
+  var max = parseInt(inp.max);
+  if (val >= 1 && val <= max) inp.value = val;
+}
+function selectAddress(id, el) {
+  document.querySelectorAll('[onclick^="selectAddress"]').forEach(function(e) {
+    e.style.borderColor = '#eee';
+  });
+  el.style.borderColor = '#F5C332';
+  el.querySelector('input[type=radio]').checked = true;
+}
+</script>
+{% endblock %}

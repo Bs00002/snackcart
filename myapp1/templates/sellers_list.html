@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block main %}
+{% include 'messages.html' %}
+<section class="sb-banner sb-banner-xs sb-banner-color">
+  <div class="container"><div class="sb-main-title-frame"><div class="sb-main-title">
+    <h1 class="sb-h2">Our Home Chefs</h1>
+    <ul class="sb-breadcrumbs"><li><a href="/">Home</a></li><li><a href="#">Sellers</a></li></ul>
+  </div></div></div>
+</section>
+<section style="padding:70px 0;background:#f9f9f9;">
+  <div class="container">
+    <div class="row">
+      {% for seller in sellers %}
+      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+        <a href="/seller-detail/{{ seller.id }}" style="text-decoration:none;">
+          <div style="background:#fff;border-radius:20px;padding:25px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.07);transition:0.3s;height:100%;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+            {% if seller.profile_photo %}
+            <img src="{{ seller.profile_photo.url }}" style="width:90px;height:90px;border-radius:50%;object-fit:cover;margin-bottom:15px;border:4px solid #F5C332;">
+            {% else %}
+            <div style="width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,#F5C332,#ff8c42);display:flex;align-items:center;justify-content:center;margin:0 auto 15px;">
+              <i class="fas fa-store" style="color:#fff;font-size:35px;"></i>
+            </div>
+            {% endif %}
+            <h5 style="font-weight:700;color:#333;margin-bottom:5px;">{{ seller.kitchen_name }}</h5>
+            <p style="font-size:12px;color:#888;margin-bottom:10px;"><i class="fas fa-clock" style="color:#F5C332;"></i> {{ seller.opening_time }} - {{ seller.closing_time }}</p>
+            <div style="margin-bottom:12px;">
+              {% for i in "12345" %}
+              <i class="fas fa-star" style="color:{% if forloop.counter <= seller.rating %}#F5C332{% else %}#ddd{% endif %};font-size:13px;"></i>
+              {% endfor %}
+              <span style="font-size:12px;color:#888;"> {{ seller.rating }}</span>
+            </div>
+            <span style="background:#e8f5e9;color:#388e3c;font-size:11px;padding:4px 12px;border-radius:15px;font-weight:700;display:inline-block;">
+              <i class="fas fa-check-circle"></i> FSSAI Verified
+            </span>
+            <div style="margin-top:15px;">
+              <span style="background:#fff7ef;color:#F5C332;padding:8px 20px;border-radius:10px;font-size:13px;font-weight:700;">View Products</span>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center" style="padding:60px;">
+        <i class="fas fa-store" style="font-size:70px;color:#ddd;margin-bottom:20px;"></i>
+        <h4 style="color:#aaa;">No verified sellers yet</h4>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

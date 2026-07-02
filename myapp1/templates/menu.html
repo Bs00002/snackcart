@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block main %}
+{% include 'messages.html' %}
+
+<section class="sb-banner sb-banner-xs sb-banner-color">
+  <div class="container">
+    <div class="sb-main-title-frame">
+      <div class="sb-main-title">
+        <h1 class="sb-h2">Menu</h1>
+        <ul class="sb-breadcrumbs">
+          <li><a href="/">Home</a></li>
+          <li><a href="#">Menu</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:60px 0;">
+  <div class="container">
+    <!-- Filter bar -->
+    <form method="GET" action="/menu" style="background:#fff7ef;padding:25px;border-radius:16px;margin-bottom:40px;box-shadow:0 4px 15px rgba(0,0,0,0.06);">
+      <div class="row g-3 align-items-end">
+        <div class="col-md-5">
+          <label style="font-size:13px;font-weight:600;color:#555;">Search Products</label>
+          <input type="text" name="search" class="form-control" placeholder="Search by name..." value="{{ search }}" style="height:45px;border-radius:10px;border:2px solid #eee;">
+        </div>
+        <div class="col-md-4">
+          <label style="font-size:13px;font-weight:600;color:#555;">Filter by Category</label>
+          <select name="category" class="form-control" style="height:45px;border-radius:10px;border:2px solid #eee;">
+            <option value="">All Categories</option>
+            {% for cat in categories %}
+            <option value="{{ cat.id }}" {% if selected_category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.category_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-2">
+          <button type="submit" style="height:45px;width:100%;background:#F5C332;border:none;border-radius:10px;color:#fff;font-weight:700;cursor:pointer;">Filter</button>
+        </div>
+        <div class="col-md-1">
+          <a href="/menu" style="height:45px;width:100%;background:#eee;border:none;border-radius:10px;color:#555;font-weight:700;display:flex;align-items:center;justify-content:center;text-decoration:none;">Clear</a>
+        </div>
+      </div>
+    </form>
+
+    <div class="row">
+      {% for product in products %}
+      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+        <div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);height:100%;display:flex;flex-direction:column;transition:0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+          <a href="/product-detail/{{ product.id }}" style="text-decoration:none;">
+            {% if product.product_photo %}
+            <img src="{{ product.product_photo.url }}" alt="{{ product.product_name }}" style="width:100%;height:190px;object-fit:cover;">
+          {% else %}
+            <img src="/static/img/no-image.png" alt="No image" style="width:100%;height:190px;object-fit:cover;">
+          {% endif %}
+          </a>
+          <div style="padding:18px;flex:1;display:flex;flex-direction:column;">
+            <span style="background:#fff7ef;color:#F5C332;font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600;display:inline-block;margin-bottom:8px;">{{ product.category.category_name }}</span>
+            <a href="/product-detail/{{ product.id }}" style="text-decoration:none;">
+              <h5 style="font-size:15px;color:#333;font-weight:700;margin-bottom:6px;">{{ product.product_name }}</h5>
+            </a>
+            <p style="font-size:12px;color:#888;margin-bottom:4px;"><i class="fas fa-clock" style="color:#F5C332;"></i> Prep: {{ product.preparation_time }}</p>
+            <p style="font-size:12px;color:#888;margin-bottom:auto;"><i class="fas fa-box" style="color:#F5C332;"></i> {{ product.quantity_unit }}</p>
+            <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-size:20px;font-weight:700;color:#F5C332;">₹{{ product.price }}</span>
+              {% if userdata and is_customer %}
+              <a href="/place-order/{{ product.id }}" style="background:#F5C332;color:#fff;border:none;padding:8px 16px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;">Order Now</a>
+              {% else %}
+              <a href="/product-detail/{{ product.id }}" style="background:#eee;color:#555;border:none;padding:8px 16px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;">View</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center" style="padding:60px;">
+        <i class="fas fa-search" style="font-size:60px;color:#ddd;margin-bottom:20px;"></i>
+        <h4 style="color:#aaa;">No products found</h4>
+        <p style="color:#bbb;">Try adjusting your filters</p>
+        <a href="/menu" style="color:#F5C332;">Clear filters</a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
